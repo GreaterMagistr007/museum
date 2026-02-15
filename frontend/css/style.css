@@ -905,3 +905,413 @@ img {
     padding: 12px 10px;
   }
 }
+
+/* ============================================================
+   INNER PAGES — Общие стили внутренних страниц
+   ============================================================ */
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page__title {
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--color-accent);
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-bottom: 20px;
+}
+
+.breadcrumbs a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  transition: color var(--transition);
+}
+
+.breadcrumbs a:hover {
+  color: var(--color-accent);
+}
+
+/* Article content (generic) */
+.article {
+  line-height: 1.7;
+}
+
+.article h3 {
+  font-size: 1.3rem;
+  color: var(--color-primary);
+  margin: 28px 0 12px;
+}
+
+.article h3:first-child {
+  margin-top: 0;
+}
+
+.article p {
+  margin-bottom: 14px;
+}
+
+.article ul,
+.article ol {
+  margin: 0 0 14px 24px;
+}
+
+.article li {
+  margin-bottom: 6px;
+}
+
+/* Image placeholder (reusable) */
+.image-placeholder {
+  height: 200px;
+  background: linear-gradient(135deg, #D8C8B8, #C0B0A0);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  font-style: italic;
+  margin: 16px 0;
+}
+
+.image-placeholder--wide {
+  height: 280px;
+}
+
+.image-placeholder--small {
+  height: 140px;
+}
+
+/* ============================================================
+   NEWS — Новости
+   ============================================================ */
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.news-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition);
+}
+
+.news-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.news-card__date {
+  font-size: 0.8rem;
+  color: var(--color-accent);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.news-card__title {
+  font-size: 1.15rem;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+
+.news-card__text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.news-card__image {
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(135deg, #D8C8B8, #C0B0A0);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
+/* ============================================================
+   CARDS — Экспозиция / Архив
+   ============================================================ */
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background: var(--color-white);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card__image {
+  height: 180px;
+  background: linear-gradient(135deg, #D8C8B8, #C0B0A0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+.card__body {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card__title {
+  font-size: 1.05rem;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+
+.card__text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  flex: 1;
+}
+
+.card__link {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color var(--transition);
+}
+
+.card__link:hover {
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   EXCURSION LIST — Список экскурсий
+   ============================================================ */
+.excursion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.excursion-card {
+  display: flex;
+  gap: 20px;
+  background: var(--color-white);
+  border: 2px solid var(--color-excursion-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+}
+
+.excursion-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.excursion-card__image {
+  flex-shrink: 0;
+  width: 200px;
+  height: 150px;
+  background: linear-gradient(135deg, #D8C8B8, #C0B0A0);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+.excursion-card__body {
+  flex: 1;
+}
+
+.excursion-card__title {
+  font-size: 1.1rem;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+
+.excursion-card__text {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin-bottom: 12px;
+}
+
+.excursion-card__link {
+  display: inline-block;
+  padding: 8px 20px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background var(--transition);
+}
+
+.excursion-card__link:hover {
+  background: var(--color-primary);
+}
+
+/* ============================================================
+   CONTACT PAGE — Контакты
+   ============================================================ */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.contact-info {
+  background: var(--color-white);
+  padding: 24px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--color-border);
+}
+
+.contact-info h3 {
+  color: var(--color-primary);
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+.contact-info p {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.contact-map {
+  background: #E8E0D8;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  min-height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+/* ============================================================
+   ABOUT PAGE — О музее
+   ============================================================ */
+.about-section {
+  margin-bottom: 30px;
+}
+
+.about-section h3 {
+  font-size: 1.3rem;
+  color: var(--color-primary);
+  margin-bottom: 12px;
+}
+
+.about-section p {
+  margin-bottom: 12px;
+  line-height: 1.7;
+}
+
+/* Schedule table */
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.schedule-table th,
+.schedule-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #E8DDD0;
+}
+
+.schedule-table th {
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+.schedule-table tr:last-child td {
+  border-bottom: none;
+}
+
+.schedule-table tr:hover td {
+  background: var(--color-bg-light);
+}
+
+/* ============================================================
+   RESPONSIVE — Внутренние страницы
+   ============================================================ */
+@media (max-width: 768px) {
+  .page__title {
+    font-size: 1.4rem;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .excursion-card {
+    flex-direction: column;
+  }
+
+  .excursion-card__image {
+    width: 100%;
+    height: 180px;
+  }
+
+  .card-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .page__title {
+    font-size: 1.2rem;
+  }
+
+  .news-card {
+    padding: 14px;
+  }
+
+  .excursion-card {
+    padding: 14px;
+  }
+}

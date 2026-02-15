@@ -4,11 +4,40 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initActiveNavLink();
   initBurgerMenu();
   initDropdown();
   initModals();
   initFormationsAccordion();
 });
+
+/* ============================================================
+   Подсветка активного пункта меню (автоматически по URL)
+   ============================================================ */
+function initActiveNavLink() {
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  const navLinks = document.querySelectorAll('.nav__link');
+
+  navLinks.forEach((link) => {
+    link.classList.remove('nav__link--active');
+    const href = link.getAttribute('href');
+
+    if (href === currentPage) {
+      link.classList.add('nav__link--active');
+    }
+
+    // Подсвечиваем «Военный городок» для вложенных страниц
+    const militaryPages = ['junker-school.html', 'infantry-courses.html', 'topographic-unit.html', 'military-town.html'];
+    if (militaryPages.includes(currentPage) && link.classList.contains('nav__link--has-dropdown')) {
+      link.classList.add('nav__link--active');
+    }
+
+    // Подсвечиваем «Экскурсии» для страниц отдельных экскурсий
+    if (currentPage.startsWith('excursion-') && href === 'excursions.html') {
+      link.classList.add('nav__link--active');
+    }
+  });
+}
 
 /* ============================================================
    Бургер-меню (мобильная навигация)
