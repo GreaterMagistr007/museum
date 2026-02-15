@@ -1,0 +1,907 @@
+/* ============================================================
+   Музей «Иркутское юнкерское училище» — Стили главной страницы
+   ============================================================ */
+
+/* ----- CSS Custom Properties (цветовая палитра из макета) ----- */
+:root {
+  --color-bg:           #EDDCC8;   /* основной фон страницы (тёплый бежевый) */
+  --color-bg-light:     #F5EDE2;   /* светлый фон элементов */
+  --color-primary:      #8B1A1A;   /* тёмно-красный (заголовки, текст кнопок) */
+  --color-primary-dark: #6B1010;   /* ещё темнее — для hover */
+  --color-accent:       #D4611E;   /* оранжевый акцент */
+  --color-accent-light: #E8872E;   /* светлее оранжевый для hover */
+  --color-border:       #A0522D;   /* коричневая граница кнопок */
+  --color-text:         #3E2218;   /* основной текст */
+  --color-text-light:   #5A3A2A;   /* вторичный текст */
+  --color-white:        #FFFFFF;
+  --color-btn-bg:       #FFF8F0;   /* фон кнопок */
+  --color-excursion-bg: #F5D5C8;   /* розоватый фон кнопок экскурсий */
+  --color-excursion-border: #C4543A;
+  --color-header-bg:    #E8D1B8;   /* фон хедера */
+  --color-nav-bg:       #8B1A1A;   /* фон навигации */
+  --color-overlay:      rgba(0, 0, 0, 0.5);
+
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --radius-pill: 50px;
+
+  --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md:  0 3px 10px rgba(0, 0, 0, 0.15);
+  --shadow-lg:  0 6px 24px rgba(0, 0, 0, 0.2);
+
+  --transition: 0.25s ease;
+  --max-width:  1200px;
+}
+
+/* ----- Reset & Base ----- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header {
+  background: var(--color-header-bg);
+  border-bottom: 3px solid var(--color-border);
+}
+
+.header__top {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 16px 20px;
+}
+
+.header__logo-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Плейсхолдеры для изображений хедера */
+.header__img {
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.header__img--flag {
+  width: 50px;
+  height: 70px;
+  background: linear-gradient(to bottom,
+    #fff 0%, #fff 33%,
+    #2B5BAA 33%, #2B5BAA 66%,
+    #fff 66%, #fff 100%);
+  border: 1px solid #bbb;
+}
+
+.header__img--photo {
+  width: 120px;
+  height: 80px;
+  background: linear-gradient(135deg, #9E8E7E 0%, #C4B4A4 50%, #8E7E6E 100%);
+  border: 2px solid var(--color-border);
+}
+
+.header__img--photo-old {
+  width: 120px;
+  height: 80px;
+  background: linear-gradient(135deg, #A09080 0%, #D0C0B0 50%, #907E6E 100%);
+  border: 2px solid var(--color-border);
+}
+
+.header__img--emblem {
+  width: 65px;
+  height: 75px;
+  background: linear-gradient(135deg, #C8A85C 0%, #E8D080 40%, #B0903C 100%);
+  border: 1px solid #999;
+  border-radius: var(--radius-sm);
+}
+
+.header__title-block {
+  text-align: center;
+  max-width: 450px;
+}
+
+.header__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.header__subtitle {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--color-text-light);
+  line-height: 1.4;
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav {
+  background: var(--color-nav-bg);
+  position: relative;
+}
+
+.nav__list {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0;
+}
+
+.nav__item {
+  position: relative;
+}
+
+.nav__link {
+  display: block;
+  padding: 10px 16px;
+  color: var(--color-white);
+  font-size: 0.9rem;
+  font-weight: 400;
+  white-space: nowrap;
+  transition: background var(--transition), color var(--transition);
+}
+
+.nav__link:hover,
+.nav__link--active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.nav__link--active {
+  font-weight: 700;
+}
+
+.nav__arrow {
+  font-size: 0.7rem;
+  margin-left: 3px;
+  transition: transform var(--transition);
+  display: inline-block;
+}
+
+/* Dropdown */
+.nav__dropdown {
+  list-style: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 300px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: all var(--transition);
+  z-index: 100;
+}
+
+.nav__item--dropdown:hover .nav__dropdown,
+.nav__item--dropdown.is-open .nav__dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav__item--dropdown:hover .nav__arrow {
+  transform: rotate(180deg);
+}
+
+.nav__dropdown-link {
+  display: block;
+  padding: 10px 16px;
+  color: var(--color-text);
+  font-size: 0.85rem;
+  transition: background var(--transition);
+  white-space: normal;
+}
+
+.nav__dropdown-link:hover {
+  background: var(--color-bg-light);
+  color: var(--color-primary);
+}
+
+/* Burger */
+.nav__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 8px;
+  margin: 4px 12px;
+}
+
+.nav__burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--color-white);
+  border-radius: 2px;
+  transition: all var(--transition);
+}
+
+.nav__burger.is-active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav__burger.is-active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav__burger.is-active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ============================================================
+   MAIN CONTENT — Трёхколоночный layout
+   ============================================================ */
+.main {
+  flex: 1;
+  max-width: var(--max-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 160px 1fr 160px;
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 40px;
+}
+
+/* ============================================================
+   SIDEBAR — Левая и правая колонки
+   ============================================================ */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sidebar__btn {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: var(--color-btn-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  text-align: center;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar__btn:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   FORMATIONS — Центральный блок «Воинские формирования»
+   ============================================================ */
+.formations {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Аккордеон-кнопка — скрыта на десктопе */
+.formations__accordion-btn {
+  display: none;
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: var(--color-btn-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.formations__accordion-icon {
+  display: inline-block;
+  margin-left: 6px;
+  transition: transform var(--transition);
+  font-size: 0.8em;
+}
+
+.formations__accordion-btn.is-active .formations__accordion-icon {
+  transform: rotate(180deg);
+}
+
+/* Дерево формирований */
+.formations__tree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+}
+
+.formations__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: var(--color-btn-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-align: center;
+  line-height: 1.35;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.formations__item:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.formations__item:hover .formations__triangle {
+  color: var(--color-white);
+}
+
+.formations__item--main {
+  border-style: dashed;
+  border-width: 2px;
+}
+
+.formations__triangle {
+  font-size: 0.8rem;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.formations__arrow {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+}
+
+/* ============================================================
+   EXCURSIONS — Секция экскурсий
+   ============================================================ */
+.excursions {
+  border: 3px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-bg-light);
+}
+
+.excursions__header {
+  background: var(--color-accent);
+  padding: 14px 20px;
+  text-align: center;
+}
+
+.excursions__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-white);
+  margin: 0;
+}
+
+.excursions__grid {
+  padding: 20px;
+}
+
+.excursions__buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.excursions__buttons--bottom {
+  margin-bottom: 0;
+  margin-top: 20px;
+}
+
+.excursions__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: var(--color-excursion-bg);
+  border: 2px solid var(--color-excursion-border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  line-height: 1.35;
+  min-height: 70px;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+.excursions__btn:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Плейсхолдер изображения здания */
+.excursions__image {
+  width: 100%;
+}
+
+.excursions__image-placeholder {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(180deg, #D8C8B8 0%, #C0B0A0 30%, #B8A898 100%);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background: var(--color-nav-bg);
+  color: var(--color-white);
+  text-align: center;
+  padding: 16px 20px;
+  font-size: 0.85rem;
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition);
+}
+
+.modal-overlay.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  max-width: 560px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: var(--shadow-lg);
+  transform: scale(0.9) translateY(20px);
+  transition: transform var(--transition);
+}
+
+.modal-overlay.is-visible .modal {
+  transform: scale(1) translateY(0);
+}
+
+.modal__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--color-text-light);
+  background: var(--color-bg-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  border: none;
+  cursor: pointer;
+}
+
+.modal__close:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.modal__title {
+  display: none; /* Заголовок внутри template */
+}
+
+.modal__content {
+  padding: 30px;
+}
+
+.modal__content h4 {
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--color-accent);
+}
+
+.modal__content p {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.modal__content p:last-child {
+  margin-bottom: 0;
+}
+
+.modal__map-placeholder {
+  width: 100%;
+  height: 250px;
+  background: #E8E0D8;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+/* ============================================================
+   RESPONSIVE — Планшет (до 1024px)
+   ============================================================ */
+@media (max-width: 1024px) {
+  .content {
+    grid-template-columns: 140px 1fr 140px;
+    gap: 16px;
+  }
+
+  .header__img--photo,
+  .header__img--photo-old {
+    width: 100px;
+    height: 68px;
+  }
+
+  .header__title {
+    font-size: 1.3rem;
+  }
+
+  .nav__link {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+
+  .formations__item {
+    font-size: 0.85rem;
+    padding: 12px 14px;
+  }
+
+  .sidebar__btn {
+    font-size: 0.85rem;
+    padding: 10px 10px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — Мобильная навигация (до 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Header */
+  .header__logo-group {
+    gap: 10px;
+  }
+
+  .header__img--photo,
+  .header__img--photo-old {
+    width: 70px;
+    height: 50px;
+  }
+
+  .header__img--flag {
+    width: 35px;
+    height: 50px;
+  }
+
+  .header__img--emblem {
+    width: 45px;
+    height: 55px;
+  }
+
+  .header__title {
+    font-size: 1.1rem;
+  }
+
+  .header__subtitle {
+    font-size: 0.75rem;
+  }
+
+  .header__title-block {
+    max-width: 260px;
+  }
+
+  /* Burger */
+  .nav__burger {
+    display: flex;
+  }
+
+  .nav__list {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: var(--color-nav-bg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav__list.is-open {
+    display: flex;
+  }
+
+  .nav__link {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Mobile dropdown */
+  .nav__dropdown {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    background: rgba(0, 0, 0, 0.15);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+
+  .nav__item--dropdown.is-open .nav__dropdown {
+    max-height: 300px;
+  }
+
+  .nav__dropdown-link {
+    color: var(--color-white);
+    padding: 10px 32px;
+    font-size: 0.85rem;
+  }
+
+  .nav__dropdown-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-white);
+  }
+
+  /* Main content — single column */
+  .content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .sidebar--left {
+    order: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .sidebar--left .sidebar__btn {
+    width: auto;
+    min-width: 140px;
+    flex: 1 1 calc(50% - 10px);
+    max-width: calc(50% - 5px);
+  }
+
+  .sidebar--right {
+    order: 3;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .sidebar--right .sidebar__btn {
+    width: auto;
+    flex: 1;
+    min-width: 120px;
+  }
+
+  /* Formations — accordion on mobile */
+  .formations {
+    order: 2;
+  }
+
+  .formations__accordion-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .formations__tree {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    padding: 0 0;
+  }
+
+  .formations__tree.is-open {
+    max-height: 600px;
+    padding: 16px 0 0;
+  }
+
+  /* Excursions — stack */
+  .excursions__buttons {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .excursions__btn {
+    min-height: 56px;
+  }
+
+  .excursions__image-placeholder {
+    height: 160px;
+  }
+
+  .excursions__grid {
+    padding: 14px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — Маленький мобильный (до 500px)
+   ============================================================ */
+@media (max-width: 500px) {
+  .header__top {
+    padding: 12px 10px;
+  }
+
+  .header__logo-group {
+    gap: 6px;
+  }
+
+  .header__img--photo,
+  .header__img--photo-old {
+    width: 56px;
+    height: 40px;
+  }
+
+  .header__img--flag {
+    width: 28px;
+    height: 40px;
+  }
+
+  .header__img--emblem {
+    width: 36px;
+    height: 44px;
+  }
+
+  .header__title {
+    font-size: 0.95rem;
+  }
+
+  .header__subtitle {
+    font-size: 0.7rem;
+  }
+
+  .header__title-block {
+    max-width: 180px;
+  }
+
+  .main {
+    padding: 16px 10px 30px;
+  }
+
+  .sidebar--left .sidebar__btn {
+    flex: 1 1 calc(50% - 6px);
+    max-width: calc(50% - 3px);
+    font-size: 0.8rem;
+    padding: 10px 8px;
+  }
+
+  .sidebar--right .sidebar__btn {
+    font-size: 0.8rem;
+    padding: 10px 8px;
+  }
+
+  .formations__accordion-btn {
+    font-size: 0.9rem;
+    padding: 12px 14px;
+  }
+
+  .formations__item {
+    font-size: 0.8rem;
+    padding: 10px 12px;
+  }
+
+  .excursions__title {
+    font-size: 1rem;
+  }
+
+  .excursions__btn {
+    font-size: 0.8rem;
+    padding: 12px 10px;
+  }
+}

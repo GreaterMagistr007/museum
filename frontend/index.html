@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Музей «Иркутское юнкерское училище»</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="header__top">
+      <div class="header__logo-group">
+        <div class="header__img header__img--flag" title="Флаг Иркутской области"></div>
+        <div class="header__img header__img--photo" title="Здание юнкерского училища"></div>
+        <div class="header__title-block">
+          <h1 class="header__title">Музей «Иркутское юнкерское училище»</h1>
+          <p class="header__subtitle">(внештатное музейное образование, осуществляющее деятельность в здании бывшего юнкерского училища)</p>
+        </div>
+        <div class="header__img header__img--photo-old" title="Историческое фото"></div>
+        <div class="header__img header__img--emblem" title="Герб"></div>
+      </div>
+    </div>
+
+    <!-- Навигация -->
+    <nav class="nav">
+      <button class="nav__burger" id="burgerBtn" aria-label="Открыть меню" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav__list" id="navList">
+        <li class="nav__item">
+          <a href="index.html" class="nav__link nav__link--active">Главная</a>
+        </li>
+        <li class="nav__item">
+          <a href="news.html" class="nav__link">Новости</a>
+        </li>
+        <li class="nav__item">
+          <a href="exposition.html" class="nav__link">Экспозиция</a>
+        </li>
+        <li class="nav__item">
+          <a href="archive.html" class="nav__link">Архив</a>
+        </li>
+        <li class="nav__item nav__item--dropdown">
+          <a href="#" class="nav__link nav__link--has-dropdown">
+            Военный городок
+            <span class="nav__arrow">▾</span>
+          </a>
+          <ul class="nav__dropdown">
+            <li>
+              <a href="junker-school.html" class="nav__dropdown-link">
+                Иркутское юнкерское (военное) училище (1874–1918&nbsp;гг.)
+              </a>
+            </li>
+            <li>
+              <a href="infantry-courses.html" class="nav__dropdown-link">
+                Пехотные курсы командиров РККА (1920–1933&nbsp;гг.)
+              </a>
+            </li>
+            <li>
+              <a href="topographic-unit.html" class="nav__dropdown-link">
+                Топографический отряд (1934&nbsp;г.&nbsp;–&nbsp;н.&nbsp;в.)
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav__item">
+          <a href="excursions.html" class="nav__link">Экскурсии</a>
+        </li>
+        <li class="nav__item">
+          <a href="about.html" class="nav__link">О музее</a>
+        </li>
+        <li class="nav__item">
+          <a href="contacts.html" class="nav__link">Контакты</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main">
+
+    <!-- Трёхколоночная секция -->
+    <section class="content">
+
+      <!-- Левая колонка — попапы -->
+      <aside class="sidebar sidebar--left">
+        <button class="sidebar__btn" data-modal="about">О музее</button>
+        <button class="sidebar__btn" data-modal="schedule">Режим работы</button>
+        <button class="sidebar__btn" data-modal="location">Как нас найти</button>
+        <button class="sidebar__btn" data-modal="contacts">Контакты</button>
+      </aside>
+
+      <!-- Центр — Воинские формирования -->
+      <div class="formations">
+        <!-- Аккордеон-кнопка (только мобильная) -->
+        <button class="formations__accordion-btn" id="formationsToggle" aria-expanded="false">
+          Воинские формирования
+          <span class="formations__accordion-icon">▾</span>
+        </button>
+
+        <!-- Дерево (на десктопе видно всегда, на мобильном — аккордеон) -->
+        <div class="formations__tree" id="formationsTree">
+          <a href="military-town.html" class="formations__item formations__item--main">
+            <span>Воинские формирования, занимавшие здания военного городка (1882&nbsp;г.&nbsp;–&nbsp;н.&nbsp;в.)</span>
+            <span class="formations__triangle">►</span>
+          </a>
+          <div class="formations__arrow">
+            <svg width="2" height="36" viewBox="0 0 2 36"><line x1="1" y1="0" x2="1" y2="30" stroke="#8B1A1A" stroke-width="2"/><polygon points="0,30 2,30 1,36" fill="#8B1A1A"/></svg>
+          </div>
+          <a href="junker-school.html" class="formations__item">
+            Иркутское юнкерское (военное) училище<br>(1874 – 1918&nbsp;гг.)
+          </a>
+          <div class="formations__arrow">
+            <svg width="2" height="36" viewBox="0 0 2 36"><line x1="1" y1="0" x2="1" y2="30" stroke="#8B1A1A" stroke-width="2"/><polygon points="0,30 2,30 1,36" fill="#8B1A1A"/></svg>
+          </div>
+          <a href="infantry-courses.html" class="formations__item">
+            Пехотные курсы командиров РККА<br>(1920 – 1933&nbsp;гг.)
+          </a>
+          <div class="formations__arrow">
+            <svg width="2" height="36" viewBox="0 0 2 36"><line x1="1" y1="0" x2="1" y2="30" stroke="#8B1A1A" stroke-width="2"/><polygon points="0,30 2,30 1,36" fill="#8B1A1A"/></svg>
+          </div>
+          <a href="topographic-unit.html" class="formations__item">
+            Топографический отряд<br>(1934&nbsp;г.&nbsp;–&nbsp;н.&nbsp;в.)
+          </a>
+        </div>
+      </div>
+
+      <!-- Правая колонка — ссылки на страницы -->
+      <aside class="sidebar sidebar--right">
+        <a href="exposition.html" class="sidebar__btn">Экспозиция музея</a>
+        <a href="news.html" class="sidebar__btn">Новости</a>
+        <a href="archive.html" class="sidebar__btn">Архив</a>
+      </aside>
+
+    </section>
+
+    <!-- Секция экскурсий -->
+    <section class="excursions">
+      <div class="excursions__header">
+        <h2 class="excursions__title">При посещении музея доступны экскурсии</h2>
+      </div>
+
+      <div class="excursions__grid">
+        <div class="excursions__buttons excursions__buttons--top">
+          <a href="excursion-overview.html" class="excursions__btn">
+            Обзорная<br>(по всему музею)
+          </a>
+          <a href="excursion-junker.html" class="excursions__btn">
+            Иркутское военное (юнкерское) училище
+          </a>
+          <a href="excursion-awards.html" class="excursions__btn">
+            Наградная система императорской России и&nbsp;СССР
+          </a>
+        </div>
+
+        <div class="excursions__image">
+          <div class="excursions__image-placeholder">
+            <p>Изображение здания училища</p>
+          </div>
+        </div>
+
+        <div class="excursions__buttons excursions__buttons--bottom">
+          <a href="excursion-topographic-service.html" class="excursions__btn">
+            Топографическая служба Армии России от 1812&nbsp;г. до сегодняшнего дня
+          </a>
+          <a href="excursion-irkutsk-topographic.html" class="excursions__btn">
+            Иркутский топографический отряд от формирования до сегодняшнего дня
+          </a>
+          <a href="excursion-documents.html" class="excursions__btn">
+            Документы и нагрудные (памятные) знаки ушедшей эпохи
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <p>&copy; 2026 Музей «Иркутское юнкерское училище». Все права защищены.</p>
+  </footer>
+
+  <!-- ===== МОДАЛЬНЫЕ ОКНА ===== -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <button class="modal__close" id="modalClose" aria-label="Закрыть">&times;</button>
+      <h3 class="modal__title" id="modalTitle"></h3>
+      <div class="modal__content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- Контент для модальных окон (скрыт) -->
+  <template id="tpl-about">
+    <h4>О музее</h4>
+    <p>Музей «Иркутское юнкерское училище» — внештатное музейное образование, осуществляющее свою деятельность в здании бывшего юнкерского училища.</p>
+    <p>Музей рассказывает о богатой истории военного образования в Иркутске, начиная с 1874 года и до наших дней. В экспозиции представлены уникальные документы, фотографии, предметы быта и вооружения различных исторических эпох.</p>
+  </template>
+
+  <template id="tpl-schedule">
+    <h4>Режим работы</h4>
+    <p><strong>Понедельник – Пятница:</strong> 09:00 – 17:00</p>
+    <p><strong>Суббота:</strong> 10:00 – 15:00</p>
+    <p><strong>Воскресенье:</strong> выходной</p>
+    <p><em>Экскурсии проводятся по предварительной записи.</em></p>
+  </template>
+
+  <template id="tpl-location">
+    <h4>Как нас найти</h4>
+    <p><strong>Адрес:</strong> г.&nbsp;Иркутск, ул.&nbsp;Советская, д.&nbsp;176</p>
+    <div class="modal__map-placeholder">
+      <p>Здесь будет интерактивная Яндекс.Карта</p>
+    </div>
+  </template>
+
+  <template id="tpl-contacts">
+    <h4>Контакты</h4>
+    <p><strong>Телефон:</strong> +7 (3952) XX-XX-XX</p>
+    <p><strong>Email:</strong> museum@example.ru</p>
+    <p><strong>Адрес:</strong> г.&nbsp;Иркутск, ул.&nbsp;Советская, д.&nbsp;176</p>
+  </template>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
