@@ -625,7 +625,7 @@ img {
 
 .modal__map-placeholder {
   width: 100%;
-  height: 250px;
+  height: 400px;
   background: #E8E0D8;
   border: 2px dashed var(--color-border);
   border-radius: var(--radius-md);
@@ -634,7 +634,21 @@ img {
   justify-content: center;
   margin-top: 12px;
   color: var(--color-text-light);
+  overflow: hidden;
   font-style: italic;
+}
+
+.modal__map-placeholder iframe,
+.modal__map-placeholder > * {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 400px;
+}
+
+.contact-map iframe,
+.contact-map > * {
+  width: 100% !important;
+  max-height: 720px;
 }
 
 /* ============================================================
@@ -1220,6 +1234,10 @@ img {
   grid-template-columns: 1fr 1fr;
   gap: 30px;
   margin-top: 20px;
+}
+
+.contact-info + .contact-map {
+  margin-top: 24px;
 }
 
 .contact-info {

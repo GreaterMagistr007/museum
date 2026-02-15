@@ -123,6 +123,22 @@ function initModals() {
       if (!template) return;
 
       content.innerHTML = template.innerHTML;
+
+      // Скрипты, вставленные через innerHTML, не выполняются браузером.
+      // Находим их и пересоздаём как новые элементы <script>.
+      content.querySelectorAll('script').forEach((oldScript) => {
+        const newScript = document.createElement('script');
+        // Копируем все атрибуты (src, type, charset, async и т.д.)
+        Array.from(oldScript.attributes).forEach((attr) => {
+          newScript.setAttribute(attr.name, attr.value);
+        });
+        // Копируем inline-код, если есть
+        if (oldScript.textContent) {
+          newScript.textContent = oldScript.textContent;
+        }
+        oldScript.parentNode.replaceChild(newScript, oldScript);
+      });
+
       openModal();
     });
   });
