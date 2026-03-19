@@ -109,8 +109,8 @@ img {
 }
 
 .header__img--flag {
-  width: 50px;
-  height: 70px;
+  height: 75px;
+  aspect-ratio: 3 / 2;
   background: linear-gradient(to bottom,
     #fff 0%, #fff 33%,
     #2B5BAA 33%, #2B5BAA 66%,
@@ -702,7 +702,6 @@ img {
   }
 
   .header__img--flag {
-    width: 35px;
     height: 50px;
   }
 
@@ -872,7 +871,6 @@ img {
   }
 
   .header__img--flag {
-    width: 28px;
     height: 40px;
   }
 
