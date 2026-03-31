@@ -1,67 +1,103 @@
 ---
 name: architecture
-description: Маршруты, шаблоны, структура директорий, паттерны проекта museum
+description: Структура директорий, роуты, контроллеры, middleware, конфигурация, паттерны
 type: project
 ---
 # Архитектура
 ## Тип приложения
-Информационный сайт на Laravel 11 с админ-панелью. Контент в Blade-шаблонах. Админка: 2FA по email.
-## Маршрутизация
-`server/routes/web.php` — 24 GET-роута. Все именованные. Группы:
-- Основные: `/`, `/news`, `/exposition`, `/archive`, `/about`, `/contacts`, `/excursions`
-- Военный городок: `/military-town`, `/junker-school`, `/infantry-courses`, `/topographic-unit`
-- Экскурсии: `/excursion/overview`, `/excursion/junker`, `/excursion/awards`, `/excursion/topographic-service`, `/excursion/irkutsk-topographic`, `/excursion/documents`
-- Health check: `/up`
-### Админка (`server/routes/admin.php`) — 9 роутов, prefix `admin.`:
-- Guest: GET/POST `/admin/login`, GET/POST `/admin/register` (+ middleware registration.enabled)
-- Verification: GET/POST `/admin/verify`, POST `/admin/verify/resend` (middleware verification.pending)
-- Auth: POST `/admin/logout`, GET `/admin` (dashboard)
-## Шаблоны (Blade)
-Layout: `resources/views/layouts/app.blade.php`
-- Секции: `title`, `content`, `modals`, стек `scripts`
-- Подключает `public/css/style.css` и `public/js/main.js` через `asset()`
-- `data-page` атрибут на body для JS
-Admin layout: `resources/views/layouts/admin.blade.php` — подключает `public/css/admin.css`
-Admin views: `resources/views/admin/{login,register,verify,dashboard}.blade.php`
-Email: `resources/views/emails/verification-code.blade.php`
-Компоненты (`resources/views/components/`): header, footer, breadcrumbs, modals
-Страницы (`resources/views/pages/`): 15 файлов, все `@extends('layouts.app')`.
+Информационный сайт на Laravel 11.48 с админ-панелью. Контент захардкожен в Blade. Админка: 2FA по email, dashboard-заглушка.
 ## Структура директорий
 ```
-server/
-  app/
-    Http/Controllers/Controller.php
-    Http/Controllers/Admin/AuthController.php
-    Http/Controllers/Admin/RegisterController.php
-    Http/Controllers/Admin/DashboardController.php
-    Http/Middleware/EnsureVerificationPending.php
-    Http/Middleware/CheckRegistrationEnabled.php
-    Mail/VerificationCodeMail.php
-    Models/User.php
-    Models/VerificationCode.php
-    Services/VerificationCodeService.php
-    Providers/AppServiceProvider.php
-  bootstrap/app.php
-  config/
-  database/migrations/
-  resources/views/
-  routes/web.php, admin.php, console.php
-  public/css/style.css, admin.css
-  public/js/main.js
-  public/images/
+museum/
+  server/                        # Laravel-приложение
+    app/
+      Http/
+        Controllers/
+          Controller.php         # Базовый (пуст)
+          Admin/
+            AuthController.php   # Login, verify, resend, logout (192 строки)
+            RegisterController.php # Register (53 строки)
+            DashboardController.php # Dashboard (17 строк)
+        Middleware/
+          CheckRegistrationEnabled.php  # 404 если ADMIN_REGISTER_ENABLE=false
+          EnsureVerificationPending.php # Redirect если нет pending_user_id в сессии
+      Mail/
+        VerificationCodeMail.php # Email с кодом подтверждения
+      Models/
+        User.php                 # Стандартная + verificationCodes()
+        VerificationCode.php     # Коды 2FA (72 строки)
+      Services/
+        VerificationCodeService.php # Генерация/проверка/cleanup кодов
+      Providers/
+        AppServiceProvider.php   # Пустой
+    bootstrap/
+      app.php                    # Middleware aliases, routing config
+      providers.php              # Только AppServiceProvider
+    config/
+      app.php                    # admin_register_enable => env('ADMIN_REGISTER_ENABLE', false)
+      auth.php                   # Guard: web (session), Provider: users (Eloquent)
+      database.php               # Default: sqlite
+      logging.php                # Default: stack -> single, level: debug
+      mail.php                   # Default: log
+      session.php                # Driver: database, lifetime: 120 мин
+      cache.php                  # Store: database
+    database/migrations/         # 4 миграции (см. models.md)
+    database/seeders/            # 1 тестовый пользователь
+    database/factories/          # UserFactory
+    resources/views/
+      layouts/app.blade.php      # Публичный layout (25 строк)
+      layouts/admin.blade.php    # Admin layout (17 строк)
+      components/                # header, footer, breadcrumbs, modals
+      pages/                     # 17 контентных страниц
+      admin/                     # login, register, verify, dashboard
+      emails/                    # verification-code.blade.php
+    routes/
+      web.php                    # 17 публичных GET-роутов
+      admin.php                  # 9 admin-роутов
+      console.php                # inspire (заглушка)
+    public/
+      css/style.css              # 1359 строк, BEM
+      css/admin.css              # 339 строк
+      js/main.js                 # 184 строки
+      images/                    # 5 файлов (anfas.jpg 7.2MB, ivu.jpg, uu.jpg, znak-ivu.jpg, znam-irk-obl.jpg)
+    tests/
+      Feature/ExampleTest.php    # GET / -> 200
+      Unit/ExampleTest.php       # true === true
+  frontend/                      # Статический HTML-прототип (до Laravel)
 ```
+## Маршрутизация
+### web.php — 17 GET-роутов (все замыкания -> view)
+Основные: `/`, `/news`, `/exposition`, `/archive`, `/about`, `/contacts`, `/excursions`
+Военный городок: `/military-town`, `/junker-school`, `/infantry-courses`, `/topographic-unit`
+Экскурсии: `/excursion/{overview,junker,awards,topographic-service,irkutsk-topographic,documents}`
+### admin.php — 9 роутов, prefix `/admin`, name prefix `admin.`
+Guest: `GET/POST login`, `GET/POST register` (+middleware registration.enabled)
+Verification: `GET/POST verify`, `POST verify/resend` (middleware verification.pending)
+Auth: `GET /` (dashboard), `POST logout`
+## Middleware
+### Стандартные (Laravel)
+- `web` — CSRF, session, cookies (все роуты)
+- `guest` — только для неавторизованных (redirect на admin.dashboard)
+- `auth` — только для авторизованных (redirect на admin.login)
+### Кастомные (bootstrap/app.php:20-26)
+- `verification.pending` => EnsureVerificationPending — проверяет `pending_user_id` в сессии
+- `registration.enabled` => CheckRegistrationEnabled — проверяет config `app.admin_register_enable`
+- `redirectGuestsTo('/admin/login')` — глобальный redirect для auth middleware
 ## Паттерны
-- BEM в CSS, CSS Custom Properties
-- Адаптивная верстка: 1024px, 768px, 500px
-- Vanilla JS: модули-функции (initActiveNavLink, initBurgerMenu, initDropdown, initModals, initFormationsAccordion)
-- Контент в шаблонах (hardcoded)
+- MVC + Service Layer (VerificationCodeService)
+- Валидация в контроллерах (Request::validate), без FormRequest
+- DI через constructor injection (auto-wiring)
+- Нет Policies/Gates — стандартная session-based auth
+- Нет Repositories, Actions, Jobs, Events, Listeners, Notifications, Commands
 ## Конвенции именования
-- Роуты: kebab-case
-- Blade-файлы: kebab-case в pages/
-- CSS-классы: BEM
-- JS-функции: camelCase
-## Middleware (custom)
-- `verification.pending` => EnsureVerificationPending
-- `registration.enabled` => CheckRegistrationEnabled
-## Конфигурация
-- `config/app.php`: `admin_register_enable` => env('ADMIN_REGISTER_ENABLE', false)
+- Роуты: kebab-case, именованные
+- Blade pages/: kebab-case
+- CSS: BEM
+- JS: camelCase
+- Controllers: PascalCase, Admin/ namespace
+## Конфигурация (.editorconfig)
+charset: utf-8, end_of_line: lf, indent: 4 spaces, trim trailing whitespace, final newline. YAML: 2 spaces.
+## Инструменты качества
+- Laravel Pint (code style fixer) — установлен, без конфигурации
+- PHPUnit 10.5 — 2 заглушки тестов
+- phpstan/psalm/eslint/prettier/phpcs — не установлены
