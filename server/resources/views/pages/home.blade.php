@@ -19,7 +19,7 @@
         <div class="formations__tree" id="formationsTree">
             @foreach($formations as $rootArticle)
                 <a href="{{ route('article.show', $rootArticle) }}" class="formations__item formations__item--main">
-                    <span>{{ $rootArticle->title }}</span>
+                    <span>{!! $rootArticle->short_title ?: e($rootArticle->title) !!}</span>
                     <span class="formations__triangle">►</span>
                 </a>
                 @foreach($rootArticle->children as $child)
@@ -27,7 +27,7 @@
                         <svg width="2" height="36" viewBox="0 0 2 36"><line x1="1" y1="0" x2="1" y2="30" stroke="#8B1A1A" stroke-width="2"/><polygon points="0,30 2,30 1,36" fill="#8B1A1A"/></svg>
                     </div>
                     <a href="{{ route('article.show', $child) }}" class="formations__item">
-                        {{ $child->title }}
+                        {!! $child->short_title ?: e($child->title) !!}
                     </a>
                 @endforeach
             @endforeach
@@ -52,7 +52,7 @@
         @endphp
         <div class="excursions__buttons excursions__buttons--top">
             @foreach($topExcursions as $excursion)
-                <a href="{{ route('excursion.show', $excursion) }}" class="excursions__btn">{{ $excursion->short_title ?: $excursion->title }}</a>
+                <a href="{{ route('excursion.show', $excursion) }}" class="excursions__btn">{!! $excursion->short_title ?: e($excursion->title) !!}</a>
             @endforeach
         </div>
         <div class="excursions__image">
@@ -64,7 +64,7 @@
         </div>
         <div class="excursions__buttons excursions__buttons--bottom">
             @foreach($bottomExcursions as $excursion)
-                <a href="{{ route('excursion.show', $excursion) }}" class="excursions__btn">{{ $excursion->short_title ?: $excursion->title }}</a>
+                <a href="{{ route('excursion.show', $excursion) }}" class="excursions__btn">{!! $excursion->short_title ?: e($excursion->title) !!}</a>
             @endforeach
         </div>
     </div>

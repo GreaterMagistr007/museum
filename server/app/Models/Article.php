@@ -18,6 +18,8 @@ use Stevebauman\Purify\Facades\Purify;
  * @property int $id
  * @property string $slug
  * @property string $title
+ * @property string|null $short_title
+ * @property string|null $nav_title
  * @property string $content
  * @property string|null $image_path
  * @property int|null $parent_id
@@ -39,6 +41,8 @@ class Article extends Model
     protected $fillable = [
         'slug',
         'title',
+        'short_title',
+        'nav_title',
         'content',
         'image_path',
         'parent_id',
@@ -110,6 +114,22 @@ class Article extends Model
         }
 
         return Storage::url($this->image_path);
+    }
+
+    /**
+     * Санитизация short_title: допускаются только <br> и HTML-сущности.
+     */
+    public function setShortTitleAttribute(?string $value): void
+    {
+        $this->attributes['short_title'] = $value ? strip_tags($value, '<br>') : null;
+    }
+
+    /**
+     * Санитизация nav_title: только текст, без HTML-тегов.
+     */
+    public function setNavTitleAttribute(?string $value): void
+    {
+        $this->attributes['nav_title'] = $value ? strip_tags($value) : null;
     }
 
     /**

@@ -169,22 +169,25 @@ class SecurityTest extends TestCase
     }
 
     /**
-     * short_title экскурсии экранируется на главной странице (не raw HTML).
+     * short_title экскурсии санитизируется через strip_tags при сохранении.
+     * Вредоносные теги удаляются мутатором, на странице XSS не попадает.
      */
     public function test_xss_in_excursion_short_title_escaped(): void
     {
-        Excursion::factory()->create([
+        $excursion = Excursion::factory()->create([
             'short_title' => '<img src=x onerror=alert(1)>',
             'title' => 'Тестовая',
             'is_published' => true,
         ]);
 
+        // strip_tags удаляет <img>, остаётся пустая строка
+        $this->assertEmpty($excursion->short_title);
+
         $response = $this->get('/');
 
         $response->assertStatus(200);
-        // short_title выводится через {{ }}, поэтому <img> должен быть экранирован
+        // XSS-тег не должен присутствовать в ответе
         $response->assertDontSee('<img src=x onerror=alert(1)>', false);
-        $response->assertSee('&lt;img src=x onerror=alert(1)&gt;', false);
     }
 
     // =========================================================================

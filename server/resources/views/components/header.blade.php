@@ -40,14 +40,14 @@
                         <li class="nav__item nav__item--dropdown" data-nav-group="article-{{ $rootArticle->slug }}">
                             <a href="{{ route('article.show', $rootArticle) }}" class="nav__link nav__link--has-dropdown"
                                data-route="article">
-                                {{ $rootArticle->title }}
+                                {{ $rootArticle->nav_title ?: $rootArticle->title }}
                                 <span class="nav__arrow">▾</span>
                             </a>
                             <ul class="nav__dropdown">
                                 @foreach($rootArticle->children as $child)
                                     <li>
                                         <a href="{{ route('article.show', $child) }}" class="nav__dropdown-link">
-                                            {{ $child->title }}
+                                            {{ $child->nav_title ?: $child->title }}
                                         </a>
                                     </li>
                                 @endforeach
@@ -57,7 +57,7 @@
                         {{-- Корневая статья без дочерних — обычная ссылка --}}
                         <li class="nav__item" data-nav-group="article-{{ $rootArticle->slug }}">
                             <a href="{{ route('article.show', $rootArticle) }}" class="nav__link" data-route="article">
-                                {{ $rootArticle->title }}
+                                {{ $rootArticle->nav_title ?: $rootArticle->title }}
                             </a>
                         </li>
                     @endif

@@ -19,7 +19,9 @@ class ArticlesSeeder extends Seeder
             $militaryTown = Article::updateOrCreate(
                 ['slug' => 'military-town'],
                 [
-                    'title' => 'Воинские формирования, занимавшие здания военного городка',
+                    'title' => 'Воинские формирования, занимавшие здания военного городка (1882 г. – н. в.)',
+                    'short_title' => 'Воинские формирования, занимавшие здания военного городка (1882&nbsp;г.&nbsp;–&nbsp;н.&nbsp;в.)',
+                    'nav_title' => 'Военный городок',
                     'content' => $this->getMilitaryTownContent(),
                     'parent_id' => null,
                     'is_published' => true,
@@ -34,6 +36,8 @@ class ArticlesSeeder extends Seeder
                 ['slug' => 'junker-school'],
                 [
                     'title' => 'Иркутское юнкерское (военное) училище (1874–1918 гг.)',
+                    'short_title' => 'Иркутское юнкерское (военное) училище<br>(1874 – 1918&nbsp;гг.)',
+                    'nav_title' => 'Иркутское юнкерское (военное) училище (1874–1918 гг.)',
                     'content' => $this->getJunkerSchoolContent(),
                     'parent_id' => $militaryTown->id,
                     'is_published' => true,
@@ -47,6 +51,8 @@ class ArticlesSeeder extends Seeder
                 ['slug' => 'infantry-courses'],
                 [
                     'title' => 'Пехотные курсы командиров РККА (1920–1933 гг.)',
+                    'short_title' => 'Пехотные курсы командиров РККА<br>(1920 – 1933&nbsp;гг.)',
+                    'nav_title' => 'Пехотные курсы командиров РККА (1920–1933 гг.)',
                     'content' => $this->getInfantryCoursesContent(),
                     'parent_id' => $militaryTown->id,
                     'is_published' => true,
@@ -60,6 +66,8 @@ class ArticlesSeeder extends Seeder
                 ['slug' => 'topographic-unit'],
                 [
                     'title' => 'Топографический отряд (1934 г. – н. в.)',
+                    'short_title' => 'Топографический отряд<br>(1934&nbsp;г.&nbsp;–&nbsp;н.&nbsp;в.)',
+                    'nav_title' => 'Топографический отряд (1934 г. – н. в.)',
                     'content' => $this->getTopographicUnitContent(),
                     'parent_id' => $militaryTown->id,
                     'is_published' => true,

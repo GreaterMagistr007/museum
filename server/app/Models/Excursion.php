@@ -99,6 +99,14 @@ class Excursion extends Model
     }
 
     /**
+     * Санитизация short_title: допускаются только <br> и HTML-сущности.
+     */
+    public function setShortTitleAttribute(?string $value): void
+    {
+        $this->attributes['short_title'] = $value ? strip_tags($value, '<br>') : null;
+    }
+
+    /**
      * Санитизация HTML-контента описания.
      */
     public function setDescriptionAttribute(string $value): void
