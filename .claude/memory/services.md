@@ -26,6 +26,13 @@ Mailable + Queueable + SerializesModels.
 Props: `code` (string, readonly), `type` (string: login|registration, readonly).
 Subject: "Код подтверждения -- Музей 'Иркутское юнкерское училище'" (строка 29).
 View: `emails.verification-code` (строка 39).
+## ImageUploadService (app/Services/ImageUploadService.php)
+Сервис загрузки/удаления/замены изображений. Хранение на default disk (local) в `public/uploads/{directory}/`.
+Допустимые директории: news, excursions, articles, catalog, content, settings.
+Методы:
+- `upload(UploadedFile, string directory): string` — UUID-имя, storeAs, возвращает путь
+- `delete(?string path): void` — удаление если существует
+- `replace(?string oldPath, UploadedFile, string directory): string` — delete + upload
 ## Отсутствующие компоненты
 Repositories, Actions, Jobs, Events, Listeners, Notifications, Artisan Commands — нет.
 Очереди (QUEUE_CONNECTION=database) настроены, но не используются — mail отправляется синхронно.

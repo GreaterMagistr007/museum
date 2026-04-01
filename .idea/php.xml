@@ -131,6 +131,10 @@
       <path value="$PROJECT_DIR$/server/vendor/dragonmantank/cron-expression" />
       <path value="$PROJECT_DIR$/server/vendor/tijsverkoyen/css-to-inline-styles" />
       <path value="$PROJECT_DIR$/server/vendor/graham-campbell/result-type" />
+      <path value="$PROJECT_DIR$/server/vendor/stevebauman/purify" />
+      <path value="$PROJECT_DIR$/server/vendor/ezyang/htmlpurifier" />
+      <path value="$PROJECT_DIR$/server/vendor/phpoffice/math" />
+      <path value="$PROJECT_DIR$/server/vendor/phpoffice/phpword" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

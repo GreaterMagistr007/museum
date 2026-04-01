@@ -1,23 +1,23 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => view('pages.home'))->name('home');
-Route::get('/news', fn () => view('pages.news'))->name('news');
-Route::get('/exposition', fn () => view('pages.exposition'))->name('exposition');
-Route::get('/archive', fn () => view('pages.archive'))->name('archive');
-Route::get('/about', fn () => view('pages.about'))->name('about');
-Route::get('/contacts', fn () => view('pages.contacts'))->name('contacts');
-Route::get('/excursions', fn () => view('pages.excursions'))->name('excursions');
+Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/news', [PageController::class, 'news'])->name('news');
+Route::get('/exposition', [PageController::class, 'exposition'])->name('exposition');
+Route::get('/archive', [PageController::class, 'archive'])->name('archive');
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/contacts', [PageController::class, 'contacts'])->name('contacts');
 
-Route::get('/military-town', fn () => view('pages.military-town'))->name('military-town');
-Route::get('/junker-school', fn () => view('pages.junker-school'))->name('junker-school');
-Route::get('/infantry-courses', fn () => view('pages.infantry-courses'))->name('infantry-courses');
-Route::get('/topographic-unit', fn () => view('pages.topographic-unit'))->name('topographic-unit');
+Route::get('/excursions', [PageController::class, 'excursions'])->name('excursions');
+Route::get('/excursion/{excursion:slug}', [PageController::class, 'excursionShow'])->name('excursion.show');
 
-Route::get('/excursion/overview', fn () => view('pages.excursion-overview'))->name('excursion-overview');
-Route::get('/excursion/junker', fn () => view('pages.excursion-junker'))->name('excursion-junker');
-Route::get('/excursion/awards', fn () => view('pages.excursion-awards'))->name('excursion-awards');
-Route::get('/excursion/topographic-service', fn () => view('pages.excursion-topographic-service'))->name('excursion-topographic-service');
-Route::get('/excursion/irkutsk-topographic', fn () => view('pages.excursion-irkutsk-topographic'))->name('excursion-irkutsk-topographic');
-Route::get('/excursion/documents', fn () => view('pages.excursion-documents'))->name('excursion-documents');
+// Статьи (военный городок и подразделы)
+Route::get('/article/{article:slug}', [PageController::class, 'articleShow'])->name('article.show');
+
+// 301 редиректы со старых URL на новые slug-based
+Route::redirect('/military-town', '/article/military-town', 301)->name('military-town');
+Route::redirect('/junker-school', '/article/junker-school', 301)->name('junker-school');
+Route::redirect('/infantry-courses', '/article/infantry-courses', 301)->name('infantry-courses');
+Route::redirect('/topographic-unit', '/article/topographic-unit', 301)->name('topographic-unit');

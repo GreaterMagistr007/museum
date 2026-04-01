@@ -22,16 +22,23 @@ function initActiveNavLink() {
     link.classList.remove('nav__link--active');
     const routeName = link.getAttribute('data-route');
 
+    // Точное совпадение по route-имени
     if (routeName && routeName === currentPage) {
       link.classList.add('nav__link--active');
     }
 
-    const militaryPages = ['junker-school', 'infantry-courses', 'topographic-unit', 'military-town'];
-    if (militaryPages.includes(currentPage) && link.classList.contains('nav__link--has-dropdown')) {
-      link.classList.add('nav__link--active');
+    // Подсветка dropdown-группы через data-nav-group на родительском li
+    // Например, если текущий URL — /article/junker-school,
+    // то li[data-nav-group="article-military-town"] будет активным
+    if (currentPage === 'article') {
+      const parentItem = link.closest('[data-nav-group]');
+      if (parentItem && link.classList.contains('nav__link--has-dropdown')) {
+        link.classList.add('nav__link--active');
+      }
     }
 
-    const excursionPages = ['excursion-overview', 'excursion-junker', 'excursion-awards', 'excursion-topographic-service', 'excursion-irkutsk-topographic', 'excursion-documents'];
+    // Подсветка «Экскурсии» для детальных страниц
+    const excursionPages = ['excursion'];
     if (excursionPages.includes(currentPage) && routeName === 'excursions') {
       link.classList.add('nav__link--active');
     }

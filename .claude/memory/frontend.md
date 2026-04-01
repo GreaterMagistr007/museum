@@ -49,16 +49,17 @@ resources/css/app.css пустой, resources/js/app.js + bootstrap.js не ис
 - `footer.blade.php` (3 строки) — copyright с `date('Y')`.
 - `modals.blade.php` (37 строк) — overlay + 4 template: tpl-about, tpl-schedule, tpl-location (Яндекс.Карты), tpl-contacts.
 - `breadcrumbs.blade.php` (12 строк) — props: items [{title, url}], последний без ссылки.
-### Pages (17 файлов, все @extends('layouts.app'))
-home (77) — 3 колонки (sidebar/formations/sidebar), секция экскурсий с grid кнопок + anfas.jpg.
-about (44) — история, миссия, расписание (таблица).
-contacts (28) — контактная информация + Яндекс.Карты.
-news (70) — 10 news-card с датами, заголовками, текстом.
-exposition (63) — grid 6 card (6 залов экспозиции).
-archive (63) — grid 6 card (архивные материалы).
-excursions (65) — 6 excursion-card (изображение + текст + ссылка).
-military-town (31), junker-school (50), infantry-courses (48), topographic-unit (48) — исторические статьи с figure/figcaption. junker-school содержит Wikimedia Commons изображения.
-excursion-{overview,junker,awards,topographic-service,irkutsk-topographic,documents} (27-31) — описание экскурсии, продолжительность, интересные факты.
+### Pages (12 файлов, все @extends('layouts.app'))
+home — 3 колонки (sidebar/formations/sidebar), секция экскурсий с динамическими кнопками из БД + anfas.jpg. Данные через PageController::home.
+about — история, миссия, расписание (таблица).
+contacts — контактная информация + Яндекс.Карты.
+news — динамические news-card из БД.
+exposition — grid 6 card (6 залов экспозиции).
+archive — grid 6 card (архивные материалы).
+excursions — динамические excursion-card из БД (@forelse по $excursions).
+excursion-show — детальная страница экскурсии (slug routing, description/what_you_see/interesting_facts через {!! !!}).
+military-town, junker-school, infantry-courses, topographic-unit — исторические статьи.
+Удалены: excursion-{overview,junker,awards,topographic-service,irkutsk-topographic,documents} — заменены на excursion-show + БД.
 ### Admin views (4 файла, все @extends('layouts.admin'))
 login (67), register (78), verify (118, inline JS таймер), dashboard (30).
 ### Email

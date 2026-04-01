@@ -17,28 +17,20 @@
             <span class="formations__accordion-icon">▾</span>
         </button>
         <div class="formations__tree" id="formationsTree">
-            <a href="{{ route('military-town') }}" class="formations__item formations__item--main">
-                <span>Воинские формирования, занимавшие здания военного городка (1882&nbsp;г.&nbsp;–&nbsp;н.&nbsp;в.)</span>
-                <span class="formations__triangle">►</span>
-            </a>
-            <div class="formations__arrow">
-                <svg width="2" height="36" viewBox="0 0 2 36"><line x1="1" y1="0" x2="1" y2="30" stroke="#8B1A1A" stroke-width="2"/><polygon points="0,30 2,30 1,36" fill="#8B1A1A"/></svg>
-            </div>
-            <a href="{{ route('junker-school') }}" class="formations__item">
-                Иркутское юнкерское (военное) училище<br>(1874 – 1918&nbsp;гг.)
-            </a>
-            <div class="formations__arrow">
-                <svg width="2" height="36" viewBox="0 0 2 36"><line x1="1" y1="0" x2="1" y2="30" stroke="#8B1A1A" stroke-width="2"/><polygon points="0,30 2,30 1,36" fill="#8B1A1A"/></svg>
-            </div>
-            <a href="{{ route('infantry-courses') }}" class="formations__item">
-                Пехотные курсы командиров РККА<br>(1920 – 1933&nbsp;гг.)
-            </a>
-            <div class="formations__arrow">
-                <svg width="2" height="36" viewBox="0 0 2 36"><line x1="1" y1="0" x2="1" y2="30" stroke="#8B1A1A" stroke-width="2"/><polygon points="0,30 2,30 1,36" fill="#8B1A1A"/></svg>
-            </div>
-            <a href="{{ route('topographic-unit') }}" class="formations__item">
-                Топографический отряд<br>(1934&nbsp;г.&nbsp;–&nbsp;н.&nbsp;в.)
-            </a>
+            @foreach($formations as $rootArticle)
+                <a href="{{ route('article.show', $rootArticle) }}" class="formations__item formations__item--main">
+                    <span>{{ $rootArticle->title }}</span>
+                    <span class="formations__triangle">►</span>
+                </a>
+                @foreach($rootArticle->children as $child)
+                    <div class="formations__arrow">
+                        <svg width="2" height="36" viewBox="0 0 2 36"><line x1="1" y1="0" x2="1" y2="30" stroke="#8B1A1A" stroke-width="2"/><polygon points="0,30 2,30 1,36" fill="#8B1A1A"/></svg>
+                    </div>
+                    <a href="{{ route('article.show', $child) }}" class="formations__item">
+                        {{ $child->title }}
+                    </a>
+                @endforeach
+            @endforeach
         </div>
     </div>
 
@@ -54,18 +46,26 @@
         <h2 class="excursions__title">При посещении музея доступны экскурсии</h2>
     </div>
     <div class="excursions__grid">
+        @php
+            $topExcursions = $excursions->take(3);
+            $bottomExcursions = $excursions->slice(3)->take(3);
+        @endphp
         <div class="excursions__buttons excursions__buttons--top">
-            <a href="{{ route('excursion-overview') }}" class="excursions__btn">Обзорная<br>(по всему музею)</a>
-            <a href="{{ route('excursion-junker') }}" class="excursions__btn">Иркутское военное (юнкерское) училище</a>
-            <a href="{{ route('excursion-awards') }}" class="excursions__btn">Наградная система императорской России и&nbsp;СССР</a>
+            @foreach($topExcursions as $excursion)
+                <a href="{{ route('excursion.show', $excursion) }}" class="excursions__btn">{{ $excursion->short_title ?: $excursion->title }}</a>
+            @endforeach
         </div>
         <div class="excursions__image">
-            <img src="{{ asset('images/anfas.jpg') }}" alt="Здание юнкерского училища" class="excursions__building-img">
+            @php
+                $buildingImage = $siteSettings['home.building_image'] ?? null;
+                $buildingImageUrl = $buildingImage ? Storage::url($buildingImage) : asset('images/anfas.jpg');
+            @endphp
+            <img src="{{ $buildingImageUrl }}" alt="Здание юнкерского училища" class="excursions__building-img">
         </div>
         <div class="excursions__buttons excursions__buttons--bottom">
-            <a href="{{ route('excursion-topographic-service') }}" class="excursions__btn">Топографическая служба Армии России от 1812&nbsp;г. до сегодняшнего дня</a>
-            <a href="{{ route('excursion-irkutsk-topographic') }}" class="excursions__btn">Иркутский топографический отряд от формирования до сегодняшнего дня</a>
-            <a href="{{ route('excursion-documents') }}" class="excursions__btn">Документы и нагрудные (памятные) знаки ушедшей эпохи</a>
+            @foreach($bottomExcursions as $excursion)
+                <a href="{{ route('excursion.show', $excursion) }}" class="excursions__btn">{{ $excursion->short_title ?: $excursion->title }}</a>
+            @endforeach
         </div>
     </div>
 </section>
