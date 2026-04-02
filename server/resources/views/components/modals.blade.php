@@ -12,9 +12,15 @@
 
 <template id="tpl-schedule">
     <h4>Режим работы</h4>
-    <p><strong>Понедельник – Пятница:</strong> {{ $siteSettings['schedule.weekdays'] ?? '09:00 – 17:00' }}</p>
-    <p><strong>Суббота:</strong> {{ $siteSettings['schedule.saturday'] ?? '10:00 – 15:00' }}</p>
-    <p><strong>Воскресенье:</strong> {{ $siteSettings['schedule.sunday'] ?? 'выходной' }}</p>
+    @if(!empty($siteSettings['schedule.weekdays']))
+        <p><strong>Понедельник – Пятница:</strong> {{ $siteSettings['schedule.weekdays'] }}</p>
+    @endif
+    @if(!empty($siteSettings['schedule.saturday']))
+        <p><strong>Суббота:</strong> {{ $siteSettings['schedule.saturday'] }}</p>
+    @endif
+    @if(!empty($siteSettings['schedule.sunday']))
+        <p><strong>Воскресенье:</strong> {{ $siteSettings['schedule.sunday'] }}</p>
+    @endif
     @if(!empty($siteSettings['schedule.note']))
         <p><em>{{ $siteSettings['schedule.note'] }}.</em></p>
     @endif
