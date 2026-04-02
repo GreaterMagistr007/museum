@@ -12,13 +12,25 @@
 
     <div class="contact-info">
         <h3>Контактная информация</h3>
-        <p><strong>Адрес:</strong> {{ $siteSettings['contacts.address'] ?? 'г. Иркутск, ул. Ярослава Гашека, д. 5' }}</p>
-        <p><strong>Телефон:</strong> {{ $siteSettings['contacts.phone'] ?? '+7 (3952) XX-XX-XX' }}</p>
-        <p><strong>Email:</strong> {{ $siteSettings['contacts.email'] ?? 'museum@example.ru' }}</p>
+        @if(!empty($siteSettings['contacts.address']))
+            <p><strong>Адрес:</strong> {{ $siteSettings['contacts.address'] }}</p>
+        @endif
+        @if(!empty($siteSettings['contacts.phone']))
+            <p><strong>Телефон:</strong> {{ $siteSettings['contacts.phone'] }}</p>
+        @endif
+        @if(!empty($siteSettings['contacts.email']))
+            <p><strong>Email:</strong> {{ $siteSettings['contacts.email'] }}</p>
+        @endif
         <h3 style="margin-top:20px">Режим работы</h3>
-        <p>Понедельник – Пятница: {{ $siteSettings['schedule.weekdays'] ?? '09:00 – 17:00' }}</p>
-        <p>Суббота: {{ $siteSettings['schedule.saturday'] ?? '10:00 – 15:00' }}</p>
-        <p>Воскресенье: {{ $siteSettings['schedule.sunday'] ?? 'выходной' }}</p>
+        @if(!empty($siteSettings['schedule.weekdays']))
+            <p>Понедельник – Пятница: {{ $siteSettings['schedule.weekdays'] }}</p>
+        @endif
+        @if(!empty($siteSettings['schedule.saturday']))
+            <p>Суббота: {{ $siteSettings['schedule.saturday'] }}</p>
+        @endif
+        @if(!empty($siteSettings['schedule.sunday']))
+            <p>Воскресенье: {{ $siteSettings['schedule.sunday'] }}</p>
+        @endif
         @if(!empty($siteSettings['schedule.note']))
             <p><em>{{ $siteSettings['schedule.note'] }}</em></p>
         @else

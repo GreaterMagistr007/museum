@@ -24,16 +24,24 @@
         </div>
     @endif
 
+    @if(!empty($siteSettings['schedule.weekdays']) || !empty($siteSettings['schedule.saturday']) || !empty($siteSettings['schedule.sunday']))
     <div class="about-section">
         <h3>Режим работы</h3>
         <table class="schedule-table">
             <thead><tr><th>День недели</th><th>Время работы</th></tr></thead>
             <tbody>
-                <tr><td>Пн – Пт</td><td>{{ $siteSettings['schedule.weekdays'] ?? '09:00 – 17:00' }}</td></tr>
-                <tr><td>Суббота</td><td>{{ $siteSettings['schedule.saturday'] ?? '10:00 – 15:00' }}</td></tr>
-                <tr><td>Воскресенье</td><td>{{ $siteSettings['schedule.sunday'] ?? 'Выходной' }}</td></tr>
+                @if(!empty($siteSettings['schedule.weekdays']))
+                    <tr><td>Пн – Пт</td><td>{{ $siteSettings['schedule.weekdays'] }}</td></tr>
+                @endif
+                @if(!empty($siteSettings['schedule.saturday']))
+                    <tr><td>Суббота</td><td>{{ $siteSettings['schedule.saturday'] }}</td></tr>
+                @endif
+                @if(!empty($siteSettings['schedule.sunday']))
+                    <tr><td>Воскресенье</td><td>{{ $siteSettings['schedule.sunday'] }}</td></tr>
+                @endif
             </tbody>
         </table>
     </div>
+    @endif
 </div>
 @endsection
