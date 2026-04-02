@@ -14,8 +14,6 @@
         <div class="card">
             @if($item->image_url)
                 <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="card__image" loading="lazy">
-            @else
-                <div class="card__image image-placeholder"></div>
             @endif
             <div class="card__body">
                 <h3 class="card__title">{{ $item->title }}</h3>

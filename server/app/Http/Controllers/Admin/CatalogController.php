@@ -162,7 +162,7 @@ class CatalogController extends Controller
         return [
             'title' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:5120', 'dimensions:max_width=4096,max_height=4096'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:5120'],
             'remove_image' => ['sometimes', 'boolean'],
             'link_url' => ['nullable', 'url', 'max:255', 'regex:/^https?:\/\//i'],
             'is_published' => ['sometimes', 'boolean'],
