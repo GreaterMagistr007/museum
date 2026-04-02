@@ -14,13 +14,11 @@
     <div class="excursion-list">
         @forelse($excursions as $excursion)
         <div class="excursion-card">
+            @if($excursion->image_url)
             <div class="excursion-card__image">
-                @if($excursion->image_url)
-                    <img src="{{ $excursion->image_url }}" alt="{{ $excursion->title }}" style="width:100%;height:100%;object-fit:cover;">
-                @else
-                    Фото
-                @endif
+                <img src="{{ $excursion->image_url }}" alt="{{ $excursion->title }}" style="width:100%;height:100%;object-fit:cover;">
             </div>
+            @endif
             <div class="excursion-card__body">
                 <h3 class="excursion-card__title">{{ $excursion->title }}</h3>
                 <p class="excursion-card__text">{{ $excursion->short_description }}</p>

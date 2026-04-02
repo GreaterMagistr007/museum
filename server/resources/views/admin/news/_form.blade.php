@@ -28,7 +28,7 @@
 
         <div class="admin-form__group">
             <label class="admin-form__label" for="text">Текст</label>
-            <textarea class="admin-form__textarea" id="text" name="text" rows="8" required>{{ old('text', $news?->text) }}</textarea>
+            <textarea class="admin-form__textarea wysiwyg" id="text" name="text" rows="8">{{ old('text', $news?->text) }}</textarea>
             @error('text')
                 <span class="admin-form__error">{{ $message }}</span>
             @enderror
@@ -73,6 +73,7 @@
 </div>
 
 @push('scripts')
+@include('admin.partials.tinymce')
 <script>
 (function() {
     var imageInput = document.getElementById('imageInput');

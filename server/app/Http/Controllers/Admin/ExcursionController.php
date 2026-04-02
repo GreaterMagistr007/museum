@@ -7,6 +7,7 @@ use App\Models\Excursion;
 use App\Services\ImageUploadService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -45,6 +46,7 @@ class ExcursionController extends Controller
         $validated = $request->validate($this->validationRules());
 
         $data = $this->extractData($request, $validated);
+        $data['slug'] = $this->generateUniqueSlug($validated['title']);
 
         if ($request->hasFile('image')) {
             $data['image_path'] = $this->imageService->upload($request->file('image'), 'excursions');
@@ -96,12 +98,28 @@ class ExcursionController extends Controller
     }
 
     /**
+     * Генерация уникального slug на основе названия.
+     */
+    private function generateUniqueSlug(string $title): string
+    {
+        $slug = Str::slug($title);
+        $original = $slug;
+        $counter = 2;
+
+        while (Excursion::withTrashed()->where('slug', $slug)->exists()) {
+            $slug = $original . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
+    }
+
+    /**
      * Извлечь данные из запроса.
      */
     private function extractData(Request $request, array $validated): array
     {
-        return [
-            'slug' => $validated['slug'],
+        $data = [
             'title' => $validated['title'],
             'short_title' => $validated['short_title'] ?? null,
             'short_description' => $validated['short_description'],
@@ -115,6 +133,12 @@ class ExcursionController extends Controller
             'meta_title' => $validated['meta_title'] ?? null,
             'meta_description' => $validated['meta_description'] ?? null,
         ];
+
+        if (isset($validated['slug'])) {
+            $data['slug'] = $validated['slug'];
+        }
+
+        return $data;
     }
 
     /**
@@ -122,15 +146,14 @@ class ExcursionController extends Controller
      */
     private function validationRules(?Excursion $excursion = null): array
     {
-        return [
-            'slug' => ['required', 'string', 'max:191', 'alpha_dash', Rule::unique('excursions')->ignore($excursion?->id)],
+        $rules = [
             'title' => ['required', 'string', 'max:255'],
             'short_title' => ['nullable', 'string', 'max:100'],
             'short_description' => ['required', 'string'],
-            'duration_minutes' => ['required', 'integer', 'min:1', 'max:480'],
-            'group_size_min' => ['required', 'integer', 'min:1'],
-            'group_size_max' => ['required', 'integer', 'min:1', 'gte:group_size_min'],
-            'description' => ['required', 'string'],
+            'duration_minutes' => ['nullable', 'integer', 'min:1', 'max:480'],
+            'group_size_min' => ['nullable', 'integer', 'min:1'],
+            'group_size_max' => ['nullable', 'integer', 'min:1', 'gte:group_size_min'],
+            'description' => ['nullable', 'string'],
             'what_you_see' => ['nullable', 'string'],
             'interesting_facts' => ['nullable', 'string'],
             'is_published' => ['sometimes', 'boolean'],
@@ -139,5 +162,12 @@ class ExcursionController extends Controller
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:500'],
         ];
+
+        // При редактировании slug обязателен и уникален
+        if ($excursion) {
+            $rules['slug'] = ['required', 'string', 'max:191', 'alpha_dash', Rule::unique('excursions')->ignore($excursion->id)];
+        }
+
+        return $rules;
     }
 }

@@ -9,6 +9,7 @@ use App\Services\ImageUploadService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -54,6 +55,7 @@ class ArticleController extends Controller
         $validated = $request->validate($this->validationRules());
 
         $data = $this->extractData($request, $validated);
+        $data['slug'] = $this->generateUniqueSlug($validated['title']);
 
         if ($request->hasFile('image')) {
             $data['image_path'] = $this->imageService->upload($request->file('image'), 'articles');
@@ -116,8 +118,13 @@ class ArticleController extends Controller
     public function import(Request $request): JsonResponse
     {
         $request->validate([
-            'file' => ['required', 'file', 'mimes:docx', 'max:10240'],
+            'file' => ['required', 'file', 'max:51200'],
         ]);
+
+        $extension = strtolower($request->file('file')->getClientOriginalExtension());
+        if (! in_array($extension, ['doc', 'docx'])) {
+            return response()->json(['error' => 'Допустим только формат DOC или DOCX.'], 422);
+        }
 
         try {
             $html = $this->importService->importFromDocx($request->file('file'));
@@ -131,10 +138,26 @@ class ArticleController extends Controller
     /**
      * Извлечь данные из валидированного запроса.
      */
+    /**
+     * Генерация уникального slug на основе заголовка.
+     */
+    private function generateUniqueSlug(string $title): string
+    {
+        $slug = Str::slug($title);
+        $original = $slug;
+        $counter = 2;
+
+        while (Article::withTrashed()->where('slug', $slug)->exists()) {
+            $slug = $original . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
+    }
+
     private function extractData(Request $request, array $validated): array
     {
-        return [
-            'slug' => $validated['slug'],
+        $data = [
             'title' => $validated['title'],
             'content' => $validated['content'],
             'parent_id' => $validated['parent_id'] ?? null,
@@ -143,6 +166,12 @@ class ArticleController extends Controller
             'meta_title' => $validated['meta_title'] ?? null,
             'meta_description' => $validated['meta_description'] ?? null,
         ];
+
+        if (isset($validated['slug'])) {
+            $data['slug'] = $validated['slug'];
+        }
+
+        return $data;
     }
 
     /**
@@ -150,8 +179,7 @@ class ArticleController extends Controller
      */
     private function validationRules(?Article $article = null): array
     {
-        return [
-            'slug' => ['required', 'string', 'max:191', 'alpha_dash', Rule::unique('articles')->ignore($article?->id)],
+        $rules = [
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
             'parent_id' => ['nullable', 'integer', 'exists:articles,id'],
@@ -162,5 +190,11 @@ class ArticleController extends Controller
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:500'],
         ];
+
+        if ($article) {
+            $rules['slug'] = ['required', 'string', 'max:191', 'alpha_dash', Rule::unique('articles')->ignore($article->id)];
+        }
+
+        return $rules;
     }
 }

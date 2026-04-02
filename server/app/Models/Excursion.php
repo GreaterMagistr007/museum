@@ -109,9 +109,9 @@ class Excursion extends Model
     /**
      * Санитизация HTML-контента описания.
      */
-    public function setDescriptionAttribute(string $value): void
+    public function setDescriptionAttribute(?string $value): void
     {
-        $this->attributes['description'] = Purify::clean($value);
+        $this->attributes['description'] = $value ? Purify::clean($value) : null;
     }
 
     /**

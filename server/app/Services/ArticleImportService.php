@@ -12,33 +12,76 @@ use PhpOffice\PhpWord\IOFactory;
 class ArticleImportService
 {
     /**
-     * Конвертировать DOCX в очищенный HTML.
+     * Конвертировать DOC/DOCX в очищенный HTML.
      *
-     * @param UploadedFile $file загруженный DOCX-файл
+     * @param UploadedFile $file загруженный DOC/DOCX-файл
      * @return string HTML-контент для поля content
-     * @throws \Exception если файл не является валидным DOCX
+     * @throws \Exception если файл не является валидным DOC/DOCX
      */
     public function importFromDocx(UploadedFile $file): string
     {
         $tmpPath = $file->getRealPath();
+        $extension = strtolower($file->getClientOriginalExtension());
 
-        // Загрузка документа через PhpWord
-        $phpWord = IOFactory::load($tmpPath, 'Word2007');
-
-        // Сохранение в HTML во временный буфер
-        $htmlWriter = IOFactory::createWriter($phpWord, 'HTML');
-        $tmpHtmlPath = tempnam(sys_get_temp_dir(), 'phpword_') . '.html';
+        // DOC → DOCX через LibreOffice
+        $convertedPath = null;
+        if ($extension === 'doc') {
+            $tmpPath = $this->convertDocToDocx($tmpPath);
+            $convertedPath = $tmpPath;
+        }
 
         try {
-            $htmlWriter->save($tmpHtmlPath);
-            $rawHtml = file_get_contents($tmpHtmlPath);
+            // Загрузка документа через PhpWord (всегда Word2007/DOCX)
+            $phpWord = IOFactory::load($tmpPath, 'Word2007');
+
+            // Сохранение в HTML во временный буфер
+            $htmlWriter = IOFactory::createWriter($phpWord, 'HTML');
+            $tmpHtmlPath = tempnam(sys_get_temp_dir(), 'phpword_') . '.html';
+
+            try {
+                $htmlWriter->save($tmpHtmlPath);
+                $rawHtml = file_get_contents($tmpHtmlPath);
+            } finally {
+                if (file_exists($tmpHtmlPath)) {
+                    unlink($tmpHtmlPath);
+                }
+            }
         } finally {
-            if (file_exists($tmpHtmlPath)) {
-                unlink($tmpHtmlPath);
+            if ($convertedPath && file_exists($convertedPath)) {
+                unlink($convertedPath);
             }
         }
 
         return $this->extractAndClean($rawHtml);
+    }
+
+    /**
+     * Конвертировать DOC в DOCX через LibreOffice.
+     *
+     * @return string путь к временному DOCX-файлу
+     * @throws \RuntimeException если конвертация не удалась
+     */
+    private function convertDocToDocx(string $docPath): string
+    {
+        $tmpDir = sys_get_temp_dir();
+        // LibreOffice сохраняет файл с тем же именем, но расширением .docx
+        $baseName = pathinfo($docPath, PATHINFO_FILENAME);
+
+        $command = sprintf(
+            'libreoffice --headless --convert-to docx --outdir %s %s 2>&1',
+            escapeshellarg($tmpDir),
+            escapeshellarg($docPath)
+        );
+
+        exec($command, $output, $exitCode);
+
+        $docxPath = $tmpDir . '/' . $baseName . '.docx';
+
+        if ($exitCode !== 0 || ! file_exists($docxPath)) {
+            throw new \RuntimeException('Не удалось сконвертировать DOC в DOCX: ' . implode("\n", $output));
+        }
+
+        return $docxPath;
     }
 
     /**

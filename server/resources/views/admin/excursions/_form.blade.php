@@ -8,15 +8,17 @@
             @method('PUT')
         @endif
 
+        @if($excursion)
         <div class="admin-form__group">
             <label class="admin-form__label" for="slug">Slug</label>
             <input class="admin-form__input" type="text" id="slug" name="slug"
-                   value="{{ old('slug', $excursion?->slug) }}" required>
+                   value="{{ old('slug', $excursion->slug) }}" required>
             <span class="admin-form__hint">Часть URL, например: overview, junker-school</span>
             @error('slug')
                 <span class="admin-form__error">{{ $message }}</span>
             @enderror
         </div>
+        @endif
 
         <div class="admin-form__group">
             <label class="admin-form__label" for="title">Название</label>
@@ -50,7 +52,7 @@
             <div style="flex: 1; min-width: 150px;">
                 <label class="admin-form__label" for="duration_minutes">Длительность (мин.)</label>
                 <input class="admin-form__input" type="number" id="duration_minutes" name="duration_minutes"
-                       value="{{ old('duration_minutes', $excursion?->duration_minutes) }}" min="1" max="480" required>
+                       value="{{ old('duration_minutes', $excursion?->duration_minutes) }}" min="1" max="480">
                 @error('duration_minutes')
                     <span class="admin-form__error">{{ $message }}</span>
                 @enderror
@@ -58,7 +60,7 @@
             <div style="flex: 1; min-width: 150px;">
                 <label class="admin-form__label" for="group_size_min">Мин. размер группы</label>
                 <input class="admin-form__input" type="number" id="group_size_min" name="group_size_min"
-                       value="{{ old('group_size_min', $excursion?->group_size_min ?? 5) }}" min="1" required>
+                       value="{{ old('group_size_min', $excursion?->group_size_min ?? 5) }}" min="1">
                 @error('group_size_min')
                     <span class="admin-form__error">{{ $message }}</span>
                 @enderror
@@ -66,7 +68,7 @@
             <div style="flex: 1; min-width: 150px;">
                 <label class="admin-form__label" for="group_size_max">Макс. размер группы</label>
                 <input class="admin-form__input" type="number" id="group_size_max" name="group_size_max"
-                       value="{{ old('group_size_max', $excursion?->group_size_max ?? 25) }}" min="1" required>
+                       value="{{ old('group_size_max', $excursion?->group_size_max ?? 25) }}" min="1">
                 @error('group_size_max')
                     <span class="admin-form__error">{{ $message }}</span>
                 @enderror
@@ -75,7 +77,7 @@
 
         <div class="admin-form__group">
             <label class="admin-form__label" for="description">Описание экскурсии</label>
-            <textarea class="admin-form__textarea wysiwyg" id="description" name="description" rows="10" required>{{ old('description', $excursion?->description) }}</textarea>
+            <textarea class="admin-form__textarea wysiwyg" id="description" name="description" rows="10">{{ old('description', $excursion?->description) }}</textarea>
             @error('description')
                 <span class="admin-form__error">{{ $message }}</span>
             @enderror

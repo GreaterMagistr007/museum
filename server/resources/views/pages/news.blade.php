@@ -14,7 +14,7 @@
         <article class="news-card">
             <div class="news-card__date">{{ $item->formatted_date }}</div>
             <h3 class="news-card__title">{{ $item->title }}</h3>
-            <p class="news-card__text">{{ $item->text }}</p>
+            <div class="news-card__text">{!! $item->text !!}</div>
             @if($item->image_url)
                 <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="news-card__image" loading="lazy">
             @endif

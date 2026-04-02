@@ -63,13 +63,21 @@ class AuthController extends Controller
                 ]);
         }
 
-        // Credentials верные — забираем пользователя и сразу разлогиниваем
         /** @var User $user */
         $user = Auth::user();
-        Auth::logout();
 
         // Сбрасываем rate limiter при успешной проверке credentials
         app('Illuminate\Cache\RateLimiter')->clear($throttleKey);
+
+        // В режиме разработки (регистрация включена) — пропускаем 2FA
+        if (config('app.admin_register_enable')) {
+            $request->session()->regenerate();
+
+            return redirect()->route('admin.dashboard');
+        }
+
+        // Разлогиниваем для прохождения 2FA
+        Auth::logout();
 
         // Сохраняем ID в сессию и генерируем код
         $request->session()->put('pending_user_id', $user->id);

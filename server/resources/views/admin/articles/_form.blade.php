@@ -3,9 +3,9 @@
     {{-- Кнопка импорта из Word --}}
     <div style="margin-bottom: 20px; padding: 16px; background: #f5ede2; border-radius: 8px; border: 1px solid #d4a472;">
         <strong>Импорт из Word</strong>
-        <p style="margin: 6px 0; font-size: 0.9em; color: #5a3a2a;">Загрузите DOCX-файл — содержимое будет вставлено в редактор.</p>
+        <p style="margin: 6px 0; font-size: 0.9em; color: #5a3a2a;">Загрузите DOC/DOCX-файл — содержимое будет вставлено в редактор.</p>
         <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-            <input type="file" id="docxImportFile" accept=".docx" style="flex: 1; min-width: 200px;">
+            <input type="file" id="docxImportFile" accept=".doc,.docx" style="flex: 1; min-width: 200px;">
             <button type="button" id="docxImportBtn" class="admin-form__button admin-form__button--secondary">Импортировать</button>
         </div>
         <div id="docxImportStatus" style="margin-top: 8px; font-size: 0.85em;"></div>
@@ -19,15 +19,17 @@
             @method('PUT')
         @endif
 
+        @if($article)
         <div class="admin-form__group">
             <label class="admin-form__label" for="slug">Slug</label>
             <input class="admin-form__input" type="text" id="slug" name="slug"
-                   value="{{ old('slug', $article?->slug) }}" required>
+                   value="{{ old('slug', $article->slug) }}" required>
             <span class="admin-form__hint">Часть URL, например: military-town, junker-school</span>
             @error('slug')
                 <span class="admin-form__error">{{ $message }}</span>
             @enderror
         </div>
+        @endif
 
         <div class="admin-form__group">
             <label class="admin-form__label" for="title">Заголовок</label>
@@ -56,7 +58,7 @@
 
         <div class="admin-form__group">
             <label class="admin-form__label" for="content">Содержимое</label>
-            <textarea class="admin-form__textarea wysiwyg" id="content" name="content" rows="20" required>{{ old('content', $article?->content) }}</textarea>
+            <textarea class="admin-form__textarea wysiwyg" id="content" name="content" rows="20">{{ old('content', $article?->content) }}</textarea>
             @error('content')
                 <span class="admin-form__error">{{ $message }}</span>
             @enderror
@@ -167,8 +169,8 @@
                 importStatus.style.color = '#c00';
                 return;
             }
-            if (!file.name.endsWith('.docx')) {
-                importStatus.textContent = 'Допустим только формат DOCX.';
+            if (!file.name.endsWith('.docx') && !file.name.endsWith('.doc')) {
+                importStatus.textContent = 'Допустим только формат DOC или DOCX.';
                 importStatus.style.color = '#c00';
                 return;
             }
@@ -183,6 +185,7 @@
 
             fetch('{{ route("admin.articles.import") }}', {
                 method: 'POST',
+                headers: {'Accept': 'application/json'},
                 body: formData
             })
             .then(function(resp) { return resp.json(); })

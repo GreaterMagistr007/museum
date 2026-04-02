@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Services\VerificationCodeService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
@@ -41,6 +42,14 @@ class RegisterController extends Controller
             'email' => $validated['email'],
             'password' => $validated['password'],
         ]);
+
+        // В режиме разработки (регистрация включена) — пропускаем 2FA
+        if (config('app.admin_register_enable')) {
+            Auth::login($user);
+            $request->session()->regenerate();
+
+            return redirect()->route('admin.dashboard');
+        }
 
         // Сохраняем ID в сессию, генерируем код верификации
         $request->session()->put('pending_user_id', $user->id);

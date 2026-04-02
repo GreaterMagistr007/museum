@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Stevebauman\Purify\Facades\Purify;
 
 /**
  * Модель новости.
@@ -72,6 +73,14 @@ class News extends Model
     public function getFormattedDateAttribute(): string
     {
         return $this->published_at->format('d.m.Y');
+    }
+
+    /**
+     * Санитизация HTML-контента текста новости.
+     */
+    public function setTextAttribute(string $value): void
+    {
+        $this->attributes['text'] = Purify::clean($value);
     }
 
     /**

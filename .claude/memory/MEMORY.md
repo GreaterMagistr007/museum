@@ -38,5 +38,7 @@ php artisan test             # PHPUnit
 ## Проект
 - [project_roadmap.md](project_roadmap.md) — приоритеты развития по итогам конкурентного анализа
 - [tech_debt.md](tech_debt.md) — технический долг, безопасность, известные проблемы
+## Обратная связь
+- [feedback_check_related_code.md](feedback_check_related_code.md) — при изменениях проверять всю цепочку: контроллер, модель, валидацию, миграции, шаблоны
 ## Ссылки
 - [references.md](references.md) — README, competitor-analysis, макеты, ТЗ
