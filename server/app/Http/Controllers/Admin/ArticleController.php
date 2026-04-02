@@ -9,6 +9,7 @@ use App\Services\ImageUploadService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -62,6 +63,8 @@ class ArticleController extends Controller
         }
 
         Article::create($data);
+        Cache::forget('home_formations');
+        Cache::forget('nav_articles');
 
         return redirect()->route('admin.articles.index')->with('success', 'Статья создана.');
     }
@@ -97,6 +100,8 @@ class ArticleController extends Controller
         }
 
         $article->update($data);
+        Cache::forget('home_formations');
+        Cache::forget('nav_articles');
 
         return redirect()->route('admin.articles.index')->with('success', 'Статья обновлена.');
     }
@@ -107,6 +112,8 @@ class ArticleController extends Controller
     public function destroy(Article $article): RedirectResponse
     {
         $article->delete();
+        Cache::forget('home_formations');
+        Cache::forget('nav_articles');
 
         return redirect()->route('admin.articles.index')->with('success', 'Статья удалена.');
     }

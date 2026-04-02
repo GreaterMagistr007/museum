@@ -8,6 +8,7 @@ use App\Models\CatalogItem;
 use App\Models\Excursion;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -49,6 +50,11 @@ class ReorderController extends Controller
                 }
             }
         });
+
+        if ($entity === 'articles') {
+            Cache::forget('home_formations');
+            Cache::forget('nav_articles');
+        }
 
         return response()->json(['success' => true]);
     }
