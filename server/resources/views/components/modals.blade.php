@@ -22,7 +22,9 @@
 
 <template id="tpl-location">
     <h4>Как нас найти</h4>
-    <p><strong>Адрес:</strong> {{ $siteSettings['modals.location_address'] ?? 'г. Иркутск, ул. Советская, д. 176' }}</p>
+    @if(!empty($siteSettings['contacts.address']))
+        <p><strong>Адрес:</strong> {{ $siteSettings['contacts.address'] }}</p>
+    @endif
     @if(!empty($siteSettings['contacts.map_id']))
     <div class="modal__map-placeholder">
         <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A{{ $siteSettings['contacts.map_id'] }}&amp;width=100%25&amp;height=720&amp;lang=ru_RU&amp;scroll=true"></script>
@@ -32,7 +34,13 @@
 
 <template id="tpl-contacts">
     <h4>Контакты</h4>
-    <p><strong>Телефон:</strong> {{ $siteSettings['contacts.phone'] ?? '+7 (3952) XX-XX-XX' }}</p>
-    <p><strong>Email:</strong> {{ $siteSettings['contacts.email'] ?? 'museum@example.ru' }}</p>
-    <p><strong>Адрес:</strong> {{ $siteSettings['modals.location_address'] ?? 'г. Иркутск, ул. Советская, д. 176' }}</p>
+    @if(!empty($siteSettings['contacts.phone']))
+        <p><strong>Телефон:</strong> {{ $siteSettings['contacts.phone'] }}</p>
+    @endif
+    @if(!empty($siteSettings['contacts.email']))
+        <p><strong>Email:</strong> {{ $siteSettings['contacts.email'] }}</p>
+    @endif
+    @if(!empty($siteSettings['contacts.address']))
+        <p><strong>Адрес:</strong> {{ $siteSettings['contacts.address'] }}</p>
+    @endif
 </template>
