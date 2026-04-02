@@ -19,7 +19,7 @@
             @endif
             <div class="card__body">
                 <h3 class="card__title">{{ $item->title }}</h3>
-                <p class="card__text">{{ $item->description }}</p>
+                <div class="card__text">{!! $item->description !!}</div>
                 @if($item->link_url)
                     <a href="{{ $item->link_url }}" class="card__link">Подробнее &rarr;</a>
                 @endif

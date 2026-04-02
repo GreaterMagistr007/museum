@@ -11,7 +11,7 @@
         <div class="admin-form__group">
             <label class="admin-form__label" for="title">Заголовок</label>
             <input class="admin-form__input" type="text" id="title" name="title"
-                   value="{{ old('title', $catalogItem?->title) }}" required>
+                   value="{{ old('title', $catalogItem?->title) }}">
             @error('title')
                 <span class="admin-form__error">{{ $message }}</span>
             @enderror
@@ -19,7 +19,7 @@
 
         <div class="admin-form__group">
             <label class="admin-form__label" for="description">Описание</label>
-            <textarea class="admin-form__textarea" id="description" name="description" rows="6" required>{{ old('description', $catalogItem?->description) }}</textarea>
+            <textarea class="admin-form__textarea wysiwyg" id="description" name="description" rows="6">{{ old('description', $catalogItem?->description) }}</textarea>
             @error('description')
                 <span class="admin-form__error">{{ $message }}</span>
             @enderror
@@ -74,6 +74,7 @@
 </div>
 
 @push('scripts')
+@include('admin.partials.tinymce')
 <script>
 (function() {
     var imageInput = document.getElementById('imageInput');

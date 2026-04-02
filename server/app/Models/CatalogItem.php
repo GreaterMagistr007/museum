@@ -6,6 +6,7 @@ use App\Services\ImageUploadService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Stevebauman\Purify\Facades\Purify;
 
 /**
  * Элемент каталога (экспозиция / архив).
@@ -67,6 +68,14 @@ class CatalogItem extends Model
     public function scopeOfType(Builder $query, string $type): Builder
     {
         return $query->where('type', $type);
+    }
+
+    /**
+     * Санитизация HTML-контента описания.
+     */
+    public function setDescriptionAttribute(?string $value): void
+    {
+        $this->attributes['description'] = $value ? Purify::clean($value) : null;
     }
 
     /**

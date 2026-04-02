@@ -160,8 +160,8 @@ class CatalogController extends Controller
     private function validationRules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
+            'title' => ['nullable', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:5120', 'dimensions:max_width=4096,max_height=4096'],
             'remove_image' => ['sometimes', 'boolean'],
             'link_url' => ['nullable', 'url', 'max:255', 'regex:/^https?:\/\//i'],
