@@ -1,1 +1,9 @@
 docs/
+
+# Локальные артефакты, не для master
+/img.png
+/museum_data.sql
+/для музея/
+
+# Bare-клон, создаваемый deploy.sh на сервере
+.museum-git/

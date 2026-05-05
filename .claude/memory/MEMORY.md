@@ -40,5 +40,8 @@ php artisan test             # PHPUnit
 - [tech_debt.md](tech_debt.md) — технический долг, безопасность, известные проблемы
 ## Обратная связь
 - [feedback_check_related_code.md](feedback_check_related_code.md) — при изменениях проверять всю цепочку: контроллер, модель, валидацию, миграции, шаблоны
+- [git_workflow.md](git_workflow.md) — коммитим напрямую в master, без TASK-ID, фичевые ветки не используем
+## Деплой
+- [deploy.md](deploy.md) — прод-деплой через server/deploy.sh, bare-клон + git archive, токен в .env сервера
 ## Ссылки
 - [references.md](references.md) — README, competitor-analysis, макеты, ТЗ

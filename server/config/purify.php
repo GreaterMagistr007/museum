@@ -47,7 +47,10 @@ return [
             'CSS.AllowedProperties' => 'font,font-size,font-weight,font-style,font-family,text-decoration,padding-left,color,background-color,text-align',
             'AutoFormat.AutoParagraph' => false,
             'AutoFormat.RemoveEmpty' => false,
-            'URI.AllowedSchemes' => ['http' => true, 'https' => true, 'mailto' => true],
+            'URI.AllowedSchemes' => ['http' => true, 'https' => true, 'mailto' => true, 'data' => true],
+            'URI.MakeAbsolute' => false,
+            'URI.Base' => null,
+            'URI.DisableExternalResources' => false,
             'Attr.AllowedFrameTargets' => ['_blank'],
         ],
 

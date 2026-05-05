@@ -141,3 +141,67 @@ php artisan test
 - `APP_NAME=Laravel` и `APP_LOCALE=en` в `.env` не обновлены
 - Vite настроен, но не используется
 - `server.zip` (33 МБ) — бинарный артефакт в корне репозитория
+
+## Deploy
+
+Прод-сервер: `pkfsb`, пользователь `insite`, директория `/var/www/insite/data/www/museum.in-site.ru` (есть симлинк `~/www/museum.in-site.ru`). PHP — `/opt/php85/bin/php` (PHP 8.5). Composer и npm на сервере не установлены, поэтому `vendor/` уже залит на сервер вручную и обновляется руками при изменении зависимостей.
+
+### Принцип
+
+Содержимое серверной директории = содержимое `server/` из этого репозитория. На сервере держится bare-клон в `.museum-git/`, скрипт `deploy.sh` через `git archive master server/ | tar -x --strip-components=1` раскладывает свежие файлы поверх. Ветка деплоя — только `master`.
+
+Удалённые из репозитория файлы скрипт сам **не сносит** — их нужно вычищать на сервере вручную после соответствующего релиза.
+
+### Первый запуск (разовая настройка сервера)
+
+1. Перенести `deploy.sh` на сервер в корень проекта:
+
+   ```bash
+   scp server/deploy.sh insite@pkfsb:/var/www/insite/data/www/museum.in-site.ru/deploy.sh
+   ```
+
+2. На сервере дописать в `.env` строку с GitHub Personal Access Token (scope: `repo` или `public_repo` — достаточно read):
+
+   ```
+   GIT_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   ```
+
+3. Запустить деплой — он сам склонирует bare-репозиторий и развернёт код:
+
+   ```bash
+   cd /var/www/insite/data/www/museum.in-site.ru
+   bash deploy.sh
+   ```
+
+### Обычный релиз
+
+```bash
+ssh insite@pkfsb 'cd /var/www/insite/data/www/museum.in-site.ru && bash deploy.sh'
+```
+
+Скрипт сам обновится из репозитория (он лежит в `server/deploy.sh`), поэтому отдельно перезаливать его не нужно.
+
+Что делает скрипт по шагам:
+1. Включает maintenance (`artisan down --retry=5`).
+2. Фетчит `master` в bare-клон `.museum-git/`.
+3. Раскладывает содержимое `server/` поверх рабочей директории.
+4. Чистит `bootstrap/cache/*` и пересобирает `package:discover` (защита от dev-провайдеров в `packages.php`).
+5. Прогоняет `migrate --force`.
+6. Сбрасывает и перепрогревает кэши: config / route / view.
+7. Снимает maintenance (`artisan up`).
+
+### Обновление vendor/
+
+Если в `composer.json` поменялись зависимости — локально:
+
+```bash
+cd server
+composer install --no-dev --optimize-autoloader
+rsync -av --delete vendor/ insite@pkfsb:/var/www/insite/data/www/museum.in-site.ru/vendor/
+```
+
+Vite в проекте не используется, `public/build/` синхронизировать не нужно.
+
+### Сидеры
+
+По умолчанию `db:seed` не выполняется. Чтобы включить — раскомментировать соответствующую строку в `server/deploy.sh`. Включать только если сидеры идемпотентны и не плодят дубликаты при повторном запуске.

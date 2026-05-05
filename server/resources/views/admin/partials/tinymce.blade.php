@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof tinymce === 'undefined') return;
     tinymce.init({
         selector: 'textarea.wysiwyg',
+        relative_urls: false,
+        remove_script_host: true,
+        document_base_url: '{{ url('/') }}/',
         language: 'ru',
         language_url: '{{ asset("vendor/tinymce/langs/ru.js") }}',
         height: 400,
