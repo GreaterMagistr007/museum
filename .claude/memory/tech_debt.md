@@ -19,10 +19,11 @@ type: project
 - `APP_LOCALE=en` при русскоязычном сайте (должно быть ru)
 - `APP_TIMEZONE=UTC` (возможно нужен Asia/Irkutsk)
 - `MAIL_FROM_ADDRESS="hello@example.com"` — заглушка
-- phpunit.xml: тестовое SQLite-подключение закомментировано (строки 26-27)
+- ~~phpunit.xml: тестовое SQLite-подключение закомментировано (строки 26-27)~~ — исправлено 2026-05-20: тесты теперь используют :memory: SQLite. См. [[feedback-test-db-safety]] об инциденте, после которого это сделано.
 ## Тесты
 - Покрытие <5%: 2 заглушки (Feature: GET / -> 200, Unit: true===true)
 - Нет тестов для: AuthController, RegisterController, VerificationCodeService, middleware, моделей
+- На 2026-05-20 12 тестов падают, не связанных с CatalogController: ArticleControllerTest (store/slug), CmsIntegrationTest (modals.about/excursion/article + xss), ExcursionControllerTest (store), SecurityTest (xss in news/settings), SettingsControllerTest (sanitizes html). Часть стала падать после удаления modals.about / modals.location_address из ALLOWED_KEYS — тесты содержат старые ключи.
 ## Неиспользуемый код
 - Vite настроен (vite.config.js, package.json) но не используется
 - resources/css/app.css пустой, resources/js/app.js + bootstrap.js не задействованы
