@@ -47,7 +47,7 @@ resources/css/app.css пустой, resources/js/app.js + bootstrap.js не ис
 ### Components
 - `header.blade.php` (69 строк) — logo-group (5 изображений), nav с burger, dropdown "Военный городок".
 - `footer.blade.php` (3 строки) — copyright с `date('Y')`.
-- `modals.blade.php` — overlay + 3 template: tpl-schedule, tpl-location (contacts.location_intro nl2br + адрес + Яндекс.Карты), tpl-contacts. Кнопка «О музее» на главной — обычная ссылка на route('about'), модалки нет.
+- `modals.blade.php` — overlay + 3 template: tpl-schedule, tpl-location (contacts.location_intro nl2br + адрес + Яндекс.Карты), tpl-contacts (contacts.intro nl2br + телефон/email/адрес). Кнопка «О музее» на главной — обычная ссылка на route('about'), модалки нет.
 - `breadcrumbs.blade.php` (12 строк) — props: items [{title, url}], последний без ссылки.
 ### Pages (12 файлов, все @extends('layouts.app'))
 home — 3 колонки (sidebar/formations/sidebar), секция экскурсий с динамическими кнопками из БД + anfas.jpg. Данные через PageController::home.

@@ -51,6 +51,13 @@
                           rows="4">{{ $settings['contacts.location_intro'] ?? '' }}</textarea>
                 <span class="admin-form__hint">Простой текст, переносы строк сохраняются.</span>
             </div>
+
+            <div class="admin-form__group">
+                <label class="admin-form__label" for="contacts_intro">Текст в модальном окне «Контакты»</label>
+                <textarea class="admin-form__textarea" id="contacts_intro" name="contacts[intro]"
+                          rows="4">{{ $settings['contacts.intro'] ?? '' }}</textarea>
+                <span class="admin-form__hint">Выводится над списком контактов. Простой текст, переносы строк сохраняются.</span>
+            </div>
         </div>
     </div>
 

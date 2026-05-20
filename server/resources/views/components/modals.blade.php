@@ -39,6 +39,9 @@
 
 <template id="tpl-contacts">
     <h4>Контакты</h4>
+    @if(!empty($siteSettings['contacts.intro']))
+        <p>{!! nl2br(e($siteSettings['contacts.intro'])) !!}</p>
+    @endif
     @if(!empty($siteSettings['contacts.phone']))
         <p><strong>Телефон:</strong> {{ $siteSettings['contacts.phone'] }}</p>
     @endif
