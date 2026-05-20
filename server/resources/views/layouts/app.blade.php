@@ -17,6 +17,7 @@
     <x-footer />
 
     @yield('modals')
+    <x-lightbox />
 
     <script src="{{ asset('js/main.js') }}"></script>
     @stack('scripts')

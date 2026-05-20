@@ -14,8 +14,12 @@
         <thead>
             <tr>
                 <th style="width: 80px;">Фото</th>
-                <th>Заголовок</th>
-                <th>Ссылка</th>
+                @if($type !== 'exposition')
+                    <th>Заголовок</th>
+                    <th>Ссылка</th>
+                @else
+                    <th>Описание</th>
+                @endif
                 <th>Статус</th>
                 <th>Действия</th>
             </tr>
@@ -30,14 +34,18 @@
                         <span style="color: #999;">&mdash;</span>
                     @endif
                 </td>
-                <td>{{ $item->title }}</td>
-                <td>
-                    @if($item->link_url)
-                        <a href="{{ $item->link_url }}" target="_blank" rel="noopener" style="word-break: break-all;">{{ Str::limit($item->link_url, 40) }}</a>
-                    @else
-                        <span style="color: #999;">&mdash;</span>
-                    @endif
-                </td>
+                @if($type !== 'exposition')
+                    <td>{{ $item->title }}</td>
+                    <td>
+                        @if($item->link_url)
+                            <a href="{{ $item->link_url }}" target="_blank" rel="noopener" style="word-break: break-all;">{{ Str::limit($item->link_url, 40) }}</a>
+                        @else
+                            <span style="color: #999;">&mdash;</span>
+                        @endif
+                    </td>
+                @else
+                    <td>{{ Str::limit(strip_tags((string) $item->description), 100) }}</td>
+                @endif
                 <td>
                     @if($item->is_published)
                         <span style="color: #2e7d32;">Опубликовано</span>

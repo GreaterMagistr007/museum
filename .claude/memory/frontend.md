@@ -48,13 +48,14 @@ resources/css/app.css пустой, resources/js/app.js + bootstrap.js не ис
 - `header.blade.php` (69 строк) — logo-group (5 изображений), nav с burger, dropdown "Военный городок".
 - `footer.blade.php` (3 строки) — copyright с `date('Y')`.
 - `modals.blade.php` — overlay + 3 template: tpl-schedule, tpl-location (contacts.location_intro nl2br + адрес + Яндекс.Карты), tpl-contacts (contacts.intro nl2br + телефон/email/адрес). Кнопка «О музее» на главной — обычная ссылка на route('about'), модалки нет.
+- `lightbox.blade.php` — глобальный overlay `<x-lightbox/>` в `layouts/app.blade.php`. Открывается на клик по любому `[data-zoom]` (см. `initLightbox()` в main.js). Закрытие click/Escape.
 - `breadcrumbs.blade.php` (12 строк) — props: items [{title, url}], последний без ссылки.
 ### Pages (12 файлов, все @extends('layouts.app'))
 home — 3 колонки (sidebar/formations/sidebar), секция экскурсий с динамическими кнопками из БД + anfas.jpg. Данные через PageController::home.
 about — история, миссия, расписание (таблица).
 contacts — контактная информация + Яндекс.Карты.
 news — динамические news-card из БД.
-exposition — grid 6 card (6 залов экспозиции).
+exposition — grid `.gallery` (image+text без title/link). Image кликабелен → lightbox через `data-zoom`. Описание выводится через `nl2br(e(strip_tags($item->description)))` (plain-text c сохранением переносов строк).
 archive — grid 6 card (архивные материалы).
 excursions — динамические excursion-card из БД (@forelse по $excursions).
 excursion-show — детальная страница экскурсии (slug routing, description/what_you_see/interesting_facts через {!! !!}).

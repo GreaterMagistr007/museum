@@ -23,14 +23,14 @@ class CatalogControllerTest extends TestCase
 
     /**
      * Авторизованный пользователь видит список экспозиции.
+     * Колонка title для exposition заменена на превью описания.
      */
     public function test_catalog_exposition_index(): void
     {
         $user = User::factory()->create();
 
         $item = new CatalogItem([
-            'title' => 'Тестовая экспозиция',
-            'description' => 'Описание',
+            'description' => 'AdminExpoDescriptionMarker',
             'is_published' => true,
         ]);
         $item->type = 'exposition';
@@ -39,7 +39,7 @@ class CatalogControllerTest extends TestCase
         $response = $this->actingAs($user)->get('/admin/catalog/exposition');
 
         $response->assertStatus(200);
-        $response->assertSee('Тестовая экспозиция');
+        $response->assertSee('AdminExpoDescriptionMarker');
     }
 
     /**
@@ -64,33 +64,36 @@ class CatalogControllerTest extends TestCase
     }
 
     /**
-     * Создание элемента каталога.
+     * Создание элемента каталога. Для exposition title и link_url
+     * принудительно сбрасываются в null контроллером.
      */
     public function test_catalog_store_creates_item(): void
     {
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->post('/admin/catalog/exposition', [
-            'title' => 'Новый элемент',
+            'title' => 'Игнорируемый для exposition заголовок',
             'description' => 'Описание нового элемента.',
             'is_published' => 1,
         ]);
 
         $response->assertRedirect('/admin/catalog/exposition');
         $this->assertDatabaseHas('catalog_items', [
-            'title' => 'Новый элемент',
             'type' => 'exposition',
+            'title' => null,
+            'description' => 'Описание нового элемента.',
         ]);
     }
 
     /**
      * Валидация link_url: javascript: должен быть отклонён.
+     * Используем тип archive, т.к. для exposition link_url принудительно сбрасывается.
      */
     public function test_catalog_store_validates_link_url_protocol(): void
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post('/admin/catalog/exposition', [
+        $response = $this->actingAs($user)->post('/admin/catalog/archive', [
             'title' => 'Элемент с XSS',
             'description' => 'Описание.',
             'link_url' => 'javascript:alert(1)',
@@ -101,7 +104,7 @@ class CatalogControllerTest extends TestCase
     }
 
     /**
-     * Обновление элемента каталога.
+     * Обновление элемента каталога (archive — для exposition title не используется).
      */
     public function test_catalog_update_works(): void
     {
@@ -112,16 +115,16 @@ class CatalogControllerTest extends TestCase
             'description' => 'Описание',
             'is_published' => true,
         ]);
-        $item->type = 'exposition';
+        $item->type = 'archive';
         $item->save();
 
-        $response = $this->actingAs($user)->put('/admin/catalog/exposition/' . $item->id, [
+        $response = $this->actingAs($user)->put('/admin/catalog/archive/' . $item->id, [
             'title' => 'Новое название',
             'description' => 'Обновлённое описание',
             'is_published' => 1,
         ]);
 
-        $response->assertRedirect('/admin/catalog/exposition');
+        $response->assertRedirect('/admin/catalog/archive');
         $this->assertDatabaseHas('catalog_items', [
             'id' => $item->id,
             'title' => 'Новое название',
@@ -150,13 +153,13 @@ class CatalogControllerTest extends TestCase
     }
 
     /**
-     * Публичная страница экспозиции показывает опубликованные элементы.
+     * Публичная страница экспозиции показывает описания опубликованных элементов.
+     * Title для exposition не выводится — маркер ищем в description.
      */
     public function test_public_exposition_page(): void
     {
         $published = new CatalogItem([
-            'title' => 'Опубликованный элемент',
-            'description' => 'Описание',
+            'description' => 'PublicExpoVisibleMarker',
             'is_published' => true,
             'sort_order' => 0,
         ]);
@@ -164,8 +167,7 @@ class CatalogControllerTest extends TestCase
         $published->save();
 
         $unpublished = new CatalogItem([
-            'title' => 'Скрытый элемент',
-            'description' => 'Описание',
+            'description' => 'PublicExpoHiddenMarker',
             'is_published' => false,
             'sort_order' => 1,
         ]);
@@ -175,8 +177,8 @@ class CatalogControllerTest extends TestCase
         $response = $this->get('/exposition');
 
         $response->assertStatus(200);
-        $response->assertSee('Опубликованный элемент');
-        $response->assertDontSee('Скрытый элемент');
+        $response->assertSee('PublicExpoVisibleMarker');
+        $response->assertDontSee('PublicExpoHiddenMarker');
     }
 
     /**

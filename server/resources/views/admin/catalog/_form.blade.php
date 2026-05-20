@@ -8,6 +8,7 @@
             @method('PUT')
         @endif
 
+        @if($type !== 'exposition')
         <div class="admin-form__group">
             <label class="admin-form__label" for="title">Заголовок</label>
             <input class="admin-form__input" type="text" id="title" name="title"
@@ -16,10 +17,15 @@
                 <span class="admin-form__error">{{ $message }}</span>
             @enderror
         </div>
+        @endif
 
         <div class="admin-form__group">
             <label class="admin-form__label" for="description">Описание</label>
-            <textarea class="admin-form__textarea wysiwyg" id="description" name="description" rows="6">{{ old('description', $catalogItem?->description) }}</textarea>
+            <textarea class="admin-form__textarea {{ $type === 'exposition' ? '' : 'wysiwyg' }}"
+                      id="description" name="description" rows="6">{{ old('description', $catalogItem?->description) }}</textarea>
+            @if($type === 'exposition')
+                <span class="admin-form__hint">Простой текст. Переносы строк сохраняются.</span>
+            @endif
             @error('description')
                 <span class="admin-form__error">{{ $message }}</span>
             @enderror
@@ -47,6 +53,7 @@
             @enderror
         </div>
 
+        @if($type !== 'exposition')
         <div class="admin-form__group">
             <label class="admin-form__label" for="link_url">Ссылка</label>
             <input class="admin-form__input" type="url" id="link_url" name="link_url"
@@ -56,6 +63,7 @@
                 <span class="admin-form__error">{{ $message }}</span>
             @enderror
         </div>
+        @endif
 
         <div class="admin-form__group">
             <label>
@@ -74,7 +82,9 @@
 </div>
 
 @push('scripts')
+@if($type !== 'exposition')
 @include('admin.partials.tinymce')
+@endif
 <script>
 (function() {
     var imageInput = document.getElementById('imageInput');

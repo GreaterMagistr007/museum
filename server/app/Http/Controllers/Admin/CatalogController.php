@@ -62,9 +62,9 @@ class CatalogController extends Controller
         $validated = $request->validate($this->validationRules());
 
         $data = [
-            'title' => $validated['title'],
-            'description' => $validated['description'],
-            'link_url' => $validated['link_url'] ?? null,
+            'title' => $type === 'exposition' ? null : ($validated['title'] ?? null),
+            'description' => $validated['description'] ?? null,
+            'link_url' => $type === 'exposition' ? null : ($validated['link_url'] ?? null),
             'is_published' => $request->boolean('is_published'),
         ];
 
@@ -105,9 +105,9 @@ class CatalogController extends Controller
         $validated = $request->validate($this->validationRules());
 
         $data = [
-            'title' => $validated['title'],
-            'description' => $validated['description'],
-            'link_url' => $validated['link_url'] ?? null,
+            'title' => $type === 'exposition' ? null : ($validated['title'] ?? null),
+            'description' => $validated['description'] ?? null,
+            'link_url' => $type === 'exposition' ? null : ($validated['link_url'] ?? null),
             'is_published' => $request->boolean('is_published'),
         ];
 

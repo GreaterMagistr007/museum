@@ -19,6 +19,7 @@ Auth-система реализована полностью. Dashboard с quic
 - SettingsController (app/Http/Controllers/Admin/SettingsController.php) — edit(), update(). DI: ImageUploadService. Flatten вложенных массивов в точечную нотацию. Сохранение через Setting::set(). Загрузка/удаление home.building_image.
 - NewsController (app/Http/Controllers/Admin/NewsController.php) — Resource controller (index, create, store, edit, update, destroy). DI: ImageUploadService. Валидация в private method. Soft delete. Image upload/replace/remove.
 - ExcursionController (app/Http/Controllers/Admin/ExcursionController.php) — Resource controller (index, create, store, edit, update, destroy). DI: ImageUploadService. Валидация slug unique, WYSIWYG fields. Soft delete.
+- CatalogController (app/Http/Controllers/Admin/CatalogController.php) — Resource контроллер для типов exposition/archive (param :type в URL). Для exposition в store/update принудительно сохраняет title=null, link_url=null — поля формы скрыты, на публичной странице не выводятся. Для archive — обычная форма с title/wysiwyg/link.
 - UploadController (app/Http/Controllers/Admin/UploadController.php) — image() для загрузки из TinyMCE WYSIWYG. Throttle 30/мин.
 ## Rate Limiting
 - Login: 5 попыток/мин, ключ `Str::transliterate(email)|IP` (AuthController:42-54).

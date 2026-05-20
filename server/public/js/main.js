@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDropdown();
   initModals();
   initFormationsAccordion();
+  initLightbox();
 });
 
 /* ============================================================
@@ -186,4 +187,47 @@ function initFormationsAccordion() {
     toggle.classList.toggle('is-active');
     toggle.setAttribute('aria-expanded', isOpen);
   });
+}
+
+/* ============================================================
+   Lightbox — увеличение изображений по клику ([data-zoom])
+   ============================================================ */
+function initLightbox() {
+  const overlay = document.getElementById('lightboxOverlay');
+  const img = document.getElementById('lightboxImg');
+  const closeBtn = document.getElementById('lightboxClose');
+  const triggers = document.querySelectorAll('[data-zoom]');
+
+  if (!overlay || !img || !closeBtn || triggers.length === 0) return;
+
+  triggers.forEach((el) => {
+    el.addEventListener('click', () => {
+      const src = el.getAttribute('src') || el.getAttribute('data-src');
+      if (!src) return;
+      img.src = src;
+      img.alt = el.getAttribute('alt') || '';
+      open();
+    });
+  });
+
+  closeBtn.addEventListener('click', close);
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) close();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('is-visible')) close();
+  });
+
+  function open() {
+    overlay.classList.add('is-visible');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    overlay.classList.remove('is-visible');
+    document.body.style.overflow = '';
+    img.src = '';
+  }
 }

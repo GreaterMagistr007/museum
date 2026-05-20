@@ -9,20 +9,16 @@
         ['title' => 'Экспозиция', 'url' => null],
     ]" />
     <h2 class="page__title">Экспозиция музея</h2>
-    <div class="card-list">
+    <div class="gallery">
         @forelse($items as $item)
-        <div class="card">
+        <figure class="gallery__item">
             @if($item->image_url)
-                <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="card__image" loading="lazy">
+                <img src="{{ $item->image_url }}" alt="" class="gallery__image" loading="lazy" data-zoom>
             @endif
-            <div class="card__body">
-                <h3 class="card__title">{{ $item->title }}</h3>
-                <div class="card__text">{!! $item->description !!}</div>
-                @if($item->link_url)
-                    <a href="{{ $item->link_url }}" class="card__link">Подробнее &rarr;</a>
-                @endif
-            </div>
-        </div>
+            @if(!empty($item->description))
+                <figcaption class="gallery__text">{!! nl2br(e(strip_tags((string) $item->description))) !!}</figcaption>
+            @endif
+        </figure>
         @empty
         <p>Раздел пуст.</p>
         @endforelse

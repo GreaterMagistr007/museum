@@ -260,24 +260,25 @@ class CmsIntegrationTest extends TestCase
 
     /**
      * Создание элемента экспозиции через админку -> отображение на публичной странице.
+     * Для exposition title не используется — маркер ищем в description.
      */
     public function test_creating_exposition_item_shows_on_public(): void
     {
         $this->actingAs($this->user)->post('/admin/catalog/exposition', [
-            'title' => 'E2E Экспонат',
-            'description' => 'Описание экспоната E2E',
+            'description' => 'E2EExpoDescriptionMarker',
             'is_published' => 1,
         ]);
 
         $this->assertDatabaseHas('catalog_items', [
-            'title' => 'E2E Экспонат',
+            'description' => 'E2EExpoDescriptionMarker',
             'type' => 'exposition',
+            'title' => null,
         ]);
 
         $response = $this->get('/exposition');
 
         $response->assertStatus(200);
-        $response->assertSee('E2E Экспонат');
+        $response->assertSee('E2EExpoDescriptionMarker');
     }
 
     /**
