@@ -19,7 +19,7 @@ class Setting extends Model
     public const ALLOWED_KEYS = [
         'contacts.address', 'contacts.phone', 'contacts.email', 'contacts.map_id',
         'schedule.weekdays', 'schedule.saturday', 'schedule.sunday', 'schedule.note',
-        'modals.about', 'modals.location_address',
+        'modals.location_address',
         'about.history', 'about.mission',
         'home.building_image',
         'seo.analytics_yandex', 'seo.analytics_google', 'seo.robots_txt',
@@ -28,7 +28,7 @@ class Setting extends Model
     ];
 
     /** HTML-поля, которые нужно санитизировать через Purify */
-    public const HTML_KEYS = ['modals.about', 'about.history', 'about.mission'];
+    public const HTML_KEYS = ['about.history', 'about.mission'];
 
     /**
      * Получить значение настройки по ключу.

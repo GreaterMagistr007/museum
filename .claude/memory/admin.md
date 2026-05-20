@@ -36,7 +36,7 @@ Layouts: admin.blade.php (panel с sidebar, авторизованные), admin
 - register.blade.php (78) — @extends admin-auth, name+email+password+confirmation, link на login
 - verify.blade.php (118) — @extends admin-auth, input code (6 цифр), resend с таймером 60сек (inline JS + localStorage)
 - dashboard.blade.php — @extends admin, quick links (настройки), инфо о пользователе
-- settings/edit.blade.php — @extends admin, табы (Контакты/Расписание/О музее/Всплывающие окна/Общие), PUT-форма, multipart. Таб О музее: about.history, about.mission (wysiwyg). Общие: home.building_image (file upload + preview + remove). Модалы: modals.about (wysiwyg). TinyMCE подключён.
+- settings/edit.blade.php — @extends admin, табы (Контакты/Расписание/О музее/Всплывающие окна/Общие), PUT-форма, multipart. Таб О музее: about.history, about.mission (wysiwyg). Общие: home.building_image (file upload + preview + remove). Всплывающие окна: modals.location_address (text). TinyMCE подключён.
 - news/index.blade.php — @extends admin, таблица (дата, заголовок, статус, действия), пагинация
 - news/_form.blade.php — partial (create/edit), поля: title, published_at, text, image (upload + preview JS), is_published (checkbox), remove_image (checkbox)
 - news/create.blade.php — @extends admin, @include _form с news=null

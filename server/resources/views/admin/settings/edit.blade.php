@@ -104,13 +104,6 @@
             <h2 class="admin-card__title">Всплывающие окна</h2>
 
             <div class="admin-form__group">
-                <label class="admin-form__label" for="modals_about">О музее (модальное окно)</label>
-                <textarea class="admin-form__textarea wysiwyg" id="modals_about" name="modals[about]"
-                          rows="8">{{ $settings['modals.about'] ?? '' }}</textarea>
-                <span class="admin-form__hint">Допускается HTML (p, h4, strong, em, a, ul, ol, li, img, blockquote, table)</span>
-            </div>
-
-            <div class="admin-form__group">
                 <label class="admin-form__label" for="modals_location_address">Адрес (модальное окно «Как нас найти»)</label>
                 <input class="admin-form__input" type="text" id="modals_location_address" name="modals[location_address]"
                        value="{{ $settings['modals.location_address'] ?? '' }}">

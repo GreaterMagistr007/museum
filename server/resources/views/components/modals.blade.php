@@ -6,10 +6,6 @@
     </div>
 </div>
 
-<template id="tpl-about">
-    {!! $siteSettings['modals.about'] ?? '<h4>О музее</h4><p>Информация о музее.</p>' !!}
-</template>
-
 <template id="tpl-schedule">
     <h4>Режим работы</h4>
     @if(!empty($siteSettings['schedule.weekdays']))

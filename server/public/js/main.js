@@ -117,7 +117,6 @@ function initModals() {
   if (!overlay || !modal || !content || !closeBtn) return;
 
   const templateMap = {
-    about: 'tpl-about',
     schedule: 'tpl-schedule',
     location: 'tpl-location',
     contacts: 'tpl-contacts',

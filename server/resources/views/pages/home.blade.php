@@ -5,7 +5,7 @@
 @section('content')
 <section class="content">
     <aside class="sidebar sidebar--left">
-        <button class="sidebar__btn" data-modal="about">О музее</button>
+        <a href="{{ route('about') }}" class="sidebar__btn">О музее</a>
         <button class="sidebar__btn" data-modal="schedule">Режим работы</button>
         <button class="sidebar__btn" data-modal="location">Как нас найти</button>
         <button class="sidebar__btn" data-modal="contacts">Контакты</button>
