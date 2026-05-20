@@ -17,9 +17,8 @@ class Setting extends Model
 
     /** Допустимые ключи настроек */
     public const ALLOWED_KEYS = [
-        'contacts.address', 'contacts.phone', 'contacts.email', 'contacts.map_id',
+        'contacts.address', 'contacts.phone', 'contacts.email', 'contacts.map_id', 'contacts.location_intro',
         'schedule.weekdays', 'schedule.saturday', 'schedule.sunday', 'schedule.note',
-        'modals.location_address',
         'about.history', 'about.mission',
         'home.building_image',
         'seo.analytics_yandex', 'seo.analytics_google', 'seo.robots_txt',

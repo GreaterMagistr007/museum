@@ -8,7 +8,6 @@
     <button class="admin-tabs__btn admin-tabs__btn--active" data-tab="contacts">Контакты</button>
     <button class="admin-tabs__btn" data-tab="schedule">Расписание</button>
     <button class="admin-tabs__btn" data-tab="about">О музее</button>
-    <button class="admin-tabs__btn" data-tab="modals">Всплывающие окна</button>
     <button class="admin-tabs__btn" data-tab="general">Общие</button>
 </div>
 
@@ -44,6 +43,13 @@
                 <input class="admin-form__input" type="text" id="contacts_map_id" name="contacts[map_id]"
                        value="{{ $settings['contacts.map_id'] ?? '' }}">
                 <span class="admin-form__hint">ID конструктора Яндекс.Карт (hex-строка)</span>
+            </div>
+
+            <div class="admin-form__group">
+                <label class="admin-form__label" for="contacts_location_intro">Текст над адресом (модальное окно «Как нас найти»)</label>
+                <textarea class="admin-form__textarea" id="contacts_location_intro" name="contacts[location_intro]"
+                          rows="4">{{ $settings['contacts.location_intro'] ?? '' }}</textarea>
+                <span class="admin-form__hint">Простой текст, переносы строк сохраняются.</span>
             </div>
         </div>
     </div>
@@ -94,19 +100,6 @@
                 <label class="admin-form__label" for="about_mission">Миссия и деятельность</label>
                 <textarea class="admin-form__textarea wysiwyg" id="about_mission" name="about[mission]"
                           rows="12">{{ $settings['about.mission'] ?? '' }}</textarea>
-            </div>
-        </div>
-    </div>
-
-    {{-- Всплывающие окна --}}
-    <div class="admin-tabs__panel" id="tab-modals">
-        <div class="admin-card">
-            <h2 class="admin-card__title">Всплывающие окна</h2>
-
-            <div class="admin-form__group">
-                <label class="admin-form__label" for="modals_location_address">Адрес (модальное окно «Как нас найти»)</label>
-                <input class="admin-form__input" type="text" id="modals_location_address" name="modals[location_address]"
-                       value="{{ $settings['modals.location_address'] ?? '' }}">
             </div>
         </div>
     </div>

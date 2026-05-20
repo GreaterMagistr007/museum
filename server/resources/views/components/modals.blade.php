@@ -24,6 +24,9 @@
 
 <template id="tpl-location">
     <h4>Как нас найти</h4>
+    @if(!empty($siteSettings['contacts.location_intro']))
+        <p>{!! nl2br(e($siteSettings['contacts.location_intro'])) !!}</p>
+    @endif
     @if(!empty($siteSettings['contacts.address']))
         <p><strong>Адрес:</strong> {{ $siteSettings['contacts.address'] }}</p>
     @endif
