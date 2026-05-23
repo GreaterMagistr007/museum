@@ -15,7 +15,9 @@
     ]" />
     <h2 class="page__title">{{ $excursion->title }}</h2>
     <div class="article">
-        <p><strong>Продолжительность:</strong> {{ $excursion->duration_minutes }} минут</p>
+        @if($excursion->duration)
+            <p><strong>Продолжительность:</strong> {{ $excursion->duration }}</p>
+        @endif
         <p><strong>Размер группы:</strong> от {{ $excursion->group_size_min }} до {{ $excursion->group_size_max }} человек</p>
 
         @if($excursion->image_url)

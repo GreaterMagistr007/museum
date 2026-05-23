@@ -18,7 +18,7 @@ use Stevebauman\Purify\Facades\Purify;
  * @property string $title
  * @property string|null $short_title
  * @property string $short_description
- * @property int $duration_minutes
+ * @property string|null $duration
  * @property int $group_size_min
  * @property int $group_size_max
  * @property string $description
@@ -43,7 +43,7 @@ class Excursion extends Model
         'title',
         'short_title',
         'short_description',
-        'duration_minutes',
+        'duration',
         'group_size_min',
         'group_size_max',
         'description',

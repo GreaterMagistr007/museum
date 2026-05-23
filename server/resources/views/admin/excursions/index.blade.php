@@ -25,7 +25,7 @@
             <tr data-id="{{ $excursion->id }}">
                 <td>{{ $excursion->slug }}</td>
                 <td>{{ $excursion->title }}</td>
-                <td>{{ $excursion->duration_minutes }} мин.</td>
+                <td>{{ $excursion->duration }}</td>
                 <td>
                     @if($excursion->is_published)
                         <span style="color: #2e7d32;">Опубликовано</span>

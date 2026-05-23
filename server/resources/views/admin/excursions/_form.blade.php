@@ -50,10 +50,11 @@
 
         <div class="admin-form__group" style="display: flex; gap: 20px; flex-wrap: wrap;">
             <div style="flex: 1; min-width: 150px;">
-                <label class="admin-form__label" for="duration_minutes">Длительность (мин.)</label>
-                <input class="admin-form__input" type="number" id="duration_minutes" name="duration_minutes"
-                       value="{{ old('duration_minutes', $excursion?->duration_minutes) }}" min="1" max="480">
-                @error('duration_minutes')
+                <label class="admin-form__label" for="duration">Длительность</label>
+                <input class="admin-form__input" type="text" id="duration" name="duration"
+                       value="{{ old('duration', $excursion?->duration ?? 'Продолжительность экскурсии 30 – 60 минут в зависимости от состава участников (дети или взрослые).') }}" maxlength="255">
+                <span class="admin-form__hint">Произвольный текст, например: «45 минут», «1–1,5 часа»</span>
+                @error('duration')
                     <span class="admin-form__error">{{ $message }}</span>
                 @enderror
             </div>

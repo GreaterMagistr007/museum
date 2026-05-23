@@ -22,7 +22,7 @@ class ExcursionFactory extends Factory
             'title' => $title,
             'short_title' => fake()->words(2, true),
             'short_description' => fake()->paragraph(),
-            'duration_minutes' => fake()->numberBetween(30, 120),
+            'duration' => fake()->numberBetween(30, 120) . ' минут',
             'group_size_min' => 5,
             'group_size_max' => 25,
             'description' => '<p>' . fake()->paragraph() . '</p>',
