@@ -92,7 +92,7 @@ Boot: forceDeleting -> delete image + nullify children parent_id.
 DatabaseSeeder — один пользователь + вызов SettingsSeeder + AboutSeeder + NewsSeeder + ExcursionsSeeder + ArticlesSeeder + CatalogSeeder.
 AboutSeeder — 2 записи settings: about.history, about.mission. HTML из бывшего хардкода about.blade.php. DB::transaction, updateOrCreate.
 ExcursionsSeeder — 6 экскурсий из старых Blade-шаблонов. DB::transaction, updateOrCreate по slug.
-ArticlesSeeder — 4 статьи (military-town корень + 3 дочерних). HTML взят из удалённых Blade-шаблонов.
+ArticlesSeeder — 4 статьи (military-town корень + 3 дочерних: junker-school, infantry-courses, topographic-unit). HTML корневой статьи — inline heredoc. HTML дочерних — из соседних файлов `database/seeders/{slug}.html` через `file_get_contents()` (тексты перенесены из .doc документов музея: ~75/119/68 KB). Подписи к иллюстрациям-плейсхолдерам — `<figure class="image-placeholder"><figcaption>…</figcaption></figure>` (div вырезается Purify, figure[class] разрешён).
 ## Factories (обновлено)
 ExcursionFactory — slug: Str::slug(title), title: fake()->sentence(3), short_title/short_description/description/what_you_see/interesting_facts, duration_minutes: 30-120, group_size_min: 5, group_size_max: 25.
 Модификатор: `unpublished()` — is_published=false.
