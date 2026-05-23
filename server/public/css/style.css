@@ -409,11 +409,6 @@ img {
   color: var(--color-white);
 }
 
-.formations__item--main {
-  border-style: dashed;
-  border-width: 2px;
-}
-
 .formations__triangle {
   font-size: 0.8rem;
   color: var(--color-primary);
