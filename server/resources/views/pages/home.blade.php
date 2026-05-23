@@ -20,7 +20,6 @@
             @foreach($formations as $rootArticle)
                 <a href="{{ route('article.show', $rootArticle) }}" class="formations__item formations__item--main">
                     <span>{!! $rootArticle->short_title ?: e($rootArticle->title) !!}</span>
-                    <span class="formations__triangle">►</span>
                 </a>
                 @foreach($rootArticle->children as $child)
                     <div class="formations__arrow">
